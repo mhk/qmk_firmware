@@ -24,6 +24,7 @@ EXTRAKEY_ENABLE  = yes  # Audio control and System control
 #BACKLIGHT_ENABLE = yes
 USB_HID_ENABLE   = yes
 CUSTOM_MATRIX    = yes
+TAP_DANCE_ENABLE = yes
 
 SRC = custom_matrix.cpp
 

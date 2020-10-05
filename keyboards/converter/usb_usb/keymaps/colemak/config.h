@@ -2,5 +2,5 @@
 
 // place overrides here
 //
-#define TAPPING_TERM 140
+#define TAPPING_TERM 180
 
