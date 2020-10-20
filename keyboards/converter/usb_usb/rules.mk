@@ -11,12 +11,16 @@ MCU = atmega32u4
 #   ATmega328P   USBasp
 BOOTLOADER = caterina
 
+# reduce size
+EXTRAFLAGS += -flto
+
 # Build Options
 #   comment out to disable the options.
 #
 #BOOTMAGIC_ENABLE = yes  # Virtual DIP switch configuration
-#MOUSEKEY_ENABLE  = yes  # Mouse keys
+MOUSEKEY_ENABLE  = yes  # Mouse keys
 EXTRAKEY_ENABLE  = yes  # Audio control and System control
+LEADER_ENABLE  = yes    # Leader key
 #CONSOLE_ENABLE   = yes  # Console for debug
 #COMMAND_ENABLE   = yes  # Commands for debug and configuration
 #SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend

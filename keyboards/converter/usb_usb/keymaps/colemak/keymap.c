@@ -33,9 +33,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_LALT_RALT] = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_RALT),
 };
 
-#define _COLEMAK  (0)
-#define _PROGKEYS (1)
-#define _QWERTY   (2)
+#define _COLEMAKDHM (0)
+#define _PROGKEYS   (1)
+#define _MOVEMENT   (2)
+#define _QWERTY     (3)
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0: plain Qwerty without layer switching
      *         ,---------------. ,---------------. ,---------------.
@@ -55,25 +56,36 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |Ctl|Gui|Alt|MHEN|HNJ| Space  |H/E|HENK|KANA|Alt|Gui|App|Ctl| |Lef|Dow|Rig| |  0    |  .|Ent| |Fnd|Cut|
      * `-----------------------------------------------------------' `-----------' `---------------' `-------'
      */
-    [_COLEMAK] = LAYOUT_all(
+
+    // TODO: KC_LEADER
+    [_COLEMAKDHM] = LAYOUT_all(
                                KC_F13,  KC_F14,  KC_F15,  KC_F16, KC_F17, KC_F18, KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
     KC_ESC,                    KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F5,  KC_F6,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                   KC_PSCR, KC_SLCK, KC_PAUS,    KC_VOLD, KC_VOLU, KC_MUTE, KC_PWR,     KC_HELP,
-    KC_GRV,           KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_JYEN, KC_BSPC,         KC_INS,  KC_HOME, KC_PGUP,    KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,    KC_STOP, KC_AGIN,
-    KC_TAB,           KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,   KC_J,   KC_L,   KC_U,    KC_Y,    KC_SCLN, KC_LBRC, KC_RBRC,          KC_DEL,          KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
-    KC_CAPS,          KC_A,    KC_R,    KC_S,    KC_T,    KC_D,   KC_H,   KC_N,   KC_E,    KC_I,    KC_O   , KC_QUOT,          KC_NUHS, LT(1,KC_ENT),                                  KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
-    TD(TD_LSFT_RSFT), KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,   KC_K,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          DF(0),   KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
-    TD(TD_LCTL_RCTL), KC_LGUI, MO(1),       KC_MHEN, KC_HANJ,   KC_SPC,     KC_HAEN, KC_HENK, DF(2),   MO(1),         KC_RGUI, KC_APP,  TD(TD_LALT_RALT),KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
+    TO(2),            KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_JYEN, KC_BSPC,         KC_INS,  KC_HOME, KC_PGUP,    KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,    KC_STOP, KC_AGIN,
+    KC_TAB,           KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,   KC_J,   KC_L,   KC_U,    KC_Y,    KC_QUOT, KC_LBRC, KC_RBRC,          KC_DEL,          KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
+    KC_CAPS,          KC_A,    KC_R,    KC_S,    KC_T,    KC_G,   KC_M,   KC_N,   KC_E,    KC_I,    KC_O   , KC_SLSH,          KC_NUHS, KC_SFTENT,                                     KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
+    KC_LEAD,          KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  KC_SCLN,          DF(0),   KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
+    TD(TD_LCTL_RCTL), KC_LGUI, TT(1),       KC_MHEN, KC_HANJ, LSFT_T(KC_SPC), KC_HAEN, KC_HENK, DF(3),   TT(1),         KC_RGUI, KC_APP,  TD(TD_LALT_RALT),KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
-    // TD(TD_LCTL_RCTL), KC_LGUI, LT(1,KC_AT), KC_MHEN, KC_HANJ,   KC_SPC,     KC_HAEN, KC_HENK, DF(2),   LT(1,KC_EXLM), KC_RGUI, KC_APP,  TD(TD_LALT_RALT),KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
 
     [_PROGKEYS] = LAYOUT_all(
                       ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,
-    KC_CIRC,          ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,              ______,______,______,    ______,______,______,______,    ______,
-    ______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ______,  KC_QUES,    ______,______,______,    ______,______,______,______,    ______,______,
-    KC_EXLM, KC_QUOT, KC_TILD, KC_AMPR, KC_LCBR, KC_BSLS, KC_ASTR, KC_PLUS, KC_4,    KC_5,    KC_6,    KC_RCBR, ______,           KC_RBRC,    ______,______,______,    ______,______,______,______,    ______,______,
-    ______,  KC_DQUO, KC_MINS, KC_EQL,  KC_LPRN, KC_AT,   KC_SLSH, KC_0,    KC_1,    KC_2,    KC_3,    KC_RPRN,          ______,  ______,                              ______,______,______,______,    ______,______,
-    ______,  ______,  KC_GRV,  KC_DLR,  KC_PIPE, KC_LBRC, KC_HASH, KC_PERC, KC_MINS, KC_7,    KC_8,    KC_9,             ______,  ______,            ______,           ______,______,______,______,    ______,______,
-    ______,  ______,  ______,  ______,  ______,         ______,             ______,  ______,  ______,  ______,  ______,  ______,  ______,     ______,______,______,    ______,       ______,______,    ______,______
+    ______,           ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,              ______,______,______,    ______,______,______,______,    ______,
+    ______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ______,  ______,     ______,______,______,    ______,______,______,______,    ______,______,
+    KC_CIRC, KC_QUOT, KC_TILD, KC_AMPR, KC_LCBR, KC_BSLS, KC_ASTR, KC_4,    KC_5,    KC_6,    KC_GRV,  KC_RCBR, ______,           ______,     ______,______,______,    ______,______,______,______,    ______,______,
+    ______,  KC_DQUO, KC_UNDS, KC_EQL,  KC_LPRN, KC_AT,   KC_MINS, KC_1,    KC_2,    KC_3,    KC_PLUS, KC_RPRN,          ______,  ______,                              ______,______,______,______,    ______,______,
+    KC_0,    KC_RBRC, KC_EXLM, KC_DLR,  KC_PIPE, KC_LBRC, KC_HASH, KC_PERC, KC_7,    KC_8,    KC_9,    KC_SLSH,          ______,  ______,            ______,           ______,______,______,______,    ______,______,
+    ______,  ______,  TO(0),   ______,  ______,         ______,             ______,  ______,  ______,  TO(0),   ______,  ______,  ______,     ______,______,______,    ______,       ______,______,    ______,______
+    ),
+
+    [_MOVEMENT] = LAYOUT_all(
+                      KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
+    KC_ESC,           KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,               KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO,
+    TO(0),   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_BSPC,    KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_TAB,  KC_HOME, KC_PGUP, KC_UP,   KC_PGDN, KC_NO,   KC_NO,   KC_WH_U, KC_MS_U, KC_WH_D, KC_ACL0, KC_NO,   KC_NO,            KC_DEL,     KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_NO,   KC_END,  KC_LEFT, KC_DOWN, KC_RGHT, KC_BTN3, KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, KC_ACL1, KC_NO,            KC_NO,   KC_BTN2,                             KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_LSFT, KC_NO,   KC_UNDO, KC_CUT,  KC_COPY, KC_PSTE, KC_AGIN, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_ACL2,          KC_NO,   TO(0),             KC_NO,            KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_LCTL, KC_LGUI, TO(0),    KC_NO,   KC_NO,          KC_BTN1,           KC_NO,   KC_NO,   KC_NO,   TO(0),   KC_RGUI, KC_APP,  KC_NO,      KC_NO, KC_NO, KC_NO,     KC_NO,        KC_NO, KC_NO,     KC_NO, ______
     ),
 
     [_QWERTY] = LAYOUT_all(
@@ -83,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,   KC_Y,   KC_U,   KC_I,    KC_O,    KC_P,    KC_LBRC, KC_RBRC,          KC_BSLS,     KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
     KC_CAPS, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,   KC_H,   KC_J,   KC_K,    KC_L,    KC_SCLN, KC_QUOT,          KC_NUHS, KC_ENT,                                    KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
     KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,   KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          DF(0),   KC_RSFT,              KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
-    KC_LCTL, KC_LGUI, KC_LALT, KC_MHEN, KC_HANJ,         KC_SPC,         KC_HAEN, KC_HENK, DF(2),   KC_RALT, KC_RGUI, KC_APP,  KC_RCTL,     KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
+    KC_LCTL, KC_LGUI, KC_LALT, KC_MHEN, KC_HANJ,         KC_SPC,         KC_HAEN, KC_HENK, DF(3),   KC_RALT, KC_RGUI, KC_APP,  KC_RCTL,     KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
 
 #if 0
@@ -103,3 +115,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
       ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______)
 #endif
 };
+
+LEADER_EXTERNS();
+
+void matrix_scan_user(void) {
+  LEADER_DICTIONARY() {
+    leading = false;
+    leader_end();
+
+    // KC_LEAD + A sends ae
+    SEQ_ONE_KEY(KC_A) {
+      SEND_STRING(SS_RALT("q"));
+    }
+    // KC_LEAD + O sends oe
+    SEQ_ONE_KEY(KC_O) {
+      SEND_STRING(SS_RALT("p"));
+    }
+    // KC_LEAD + U sends ue
+    SEQ_ONE_KEY(KC_U) {
+      SEND_STRING(SS_RALT("y"));
+    }
+    // KC_LEAD + S sends ss
+    SEQ_ONE_KEY(KC_S) {
+      SEND_STRING(SS_RALT("s"));
+    }
+  }
+}
