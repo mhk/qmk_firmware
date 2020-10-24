@@ -3,7 +3,7 @@
 // place overrides here
 //
 #define TAPPING_TERM 180
-#define LEADER_TIMEOUT 180
+#define LEADER_TIMEOUT 220
 #define TAPPING_TOGGLE 2
 
 // reduce size
