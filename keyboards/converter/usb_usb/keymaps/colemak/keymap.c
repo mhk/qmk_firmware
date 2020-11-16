@@ -23,6 +23,9 @@ enum {
     TD_LSFT_RSFT,
     TD_LCTL_RCTL,
     TD_LALT_RALT,
+    TD_CLY_BRCKT,
+    TD_RND_BRCKT,
+    TD_SQR_BRCKT,
 };
 
 // Tap Dance definitions
@@ -31,6 +34,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_LSFT_RSFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_RSFT),
     [TD_LCTL_RCTL] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_RCTL),
     [TD_LALT_RALT] = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_RALT),
+    [TD_CLY_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),
+    [TD_RND_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),
+    [TD_SQR_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
 };
 
 #define _COLEMAKDHM (0)
@@ -41,6 +47,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_DCTL     TD(TD_LCTL_RCTL)
 #define TD_DSFT     TD(TD_LSFT_RSFT)
 #define TD_SPC      LSFT_T(KC_SPC)
+#define TD_CBRC     TD(TD_CLY_BRCKT)
+#define TD_RBRC     TD(TD_RND_BRCKT)
+#define TD_SBRC     TD(TD_SQR_BRCKT)
 #define TT_PROG     TT(_PROGKEYS)
 #define TO_MOV      TO(_MOVEMENT)
 #define TO_COLM     TO(_COLEMAKDHM)
@@ -82,9 +91,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,
     ______,           ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,  ______,              ______,______,______,    ______,______,______,______,    ______,
     ______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ______,  ______,     ______,______,______,    ______,______,______,______,    ______,______,
-    KC_CIRC, KC_QUOT, KC_TILD, KC_AMPR, KC_LCBR, KC_BSLS, KC_ASTR, KC_4,    KC_5,    KC_6,    KC_EXLM, KC_RCBR, ______,           ______,     ______,______,______,    ______,______,______,______,    ______,______,
-    ______,  KC_DQUO, KC_UNDS, KC_EQL,  KC_LPRN, KC_AT,   KC_MINS, KC_1,    KC_2,    KC_3,    KC_PLUS, KC_RPRN,          ______,  ______,                              ______,______,______,______,    ______,______,
-    KC_0,    KC_RBRC, KC_GRV,  KC_DLR,  KC_PIPE, KC_LBRC, KC_HASH, KC_PERC, KC_7,    KC_8,    KC_9,    KC_QUES,          ______,  ______,            ______,           ______,______,______,______,    ______,______,
+    KC_CIRC, KC_QUOT, KC_TILD, KC_AMPR, TD_CBRC, KC_BSLS, KC_ASTR, KC_4,    KC_5,    KC_6,    KC_EXLM, KC_RCBR, ______,           ______,     ______,______,______,    ______,______,______,______,    ______,______,
+    ______,  KC_DQUO, KC_UNDS, KC_EQL,  TD_RBRC, KC_AT,   KC_MINS, KC_1,    KC_2,    KC_3,    KC_PLUS, KC_RPRN,          ______,  ______,                              ______,______,______,______,    ______,______,
+    KC_0,    KC_RBRC, KC_GRV,  KC_DLR,  KC_PIPE, TD_SBRC, KC_HASH, KC_PERC, KC_7,    KC_8,    KC_9,    KC_QUES,          ______,  ______,            ______,           ______,______,______,______,    ______,______,
     ______,  ______,  TO_COLM, ______,  ______,         ______,             ______,  ______,  ______,  TO_COLM, ______,  ______,  ______,     ______,______,______,    ______,       ______,______,    ______,______
     ),
 
