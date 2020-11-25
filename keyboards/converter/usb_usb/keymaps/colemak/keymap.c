@@ -42,6 +42,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define _COLEMAKDHM (0)
 #define _PROGKEYS   (1)
 #define _MOVEMENT   (2)
+#define _UMLAUTE    (4)
 #define _QWERTY     (3)
 #define TD_DALT     TD(TD_LALT_RALT)
 #define TD_DCTL     TD(TD_LCTL_RCTL)
@@ -55,6 +56,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TO_COLM     TO(_COLEMAKDHM)
 #define DF_QWRT     DF(_QWERTY)
 #define DF_COLM     DF(_COLEMAKDHM)
+#define LC_ESC      LCTL_T(KC_ESC)
+#define RC_SLSH     RCTL_T(KC_SLSH)
+#define LS_Z        LSFT_T(KC_Z)
+#define RS_SCLN     RSFT_T(KC_SCLN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0: plain Qwerty without layer switching
@@ -75,16 +80,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
      * |Ctl|Gui|Alt|MHEN|HNJ| Space  |H/E|HENK|KANA|Alt|Gui|App|Ctl| |Lef|Dow|Rig| |  0    |  .|Ent| |Fnd|Cut|
      * `-----------------------------------------------------------' `-----------' `---------------' `-------'
      */
-
     // TODO: KC_LEADER
     [_COLEMAKDHM] = LAYOUT_all(
                       KC_F13,  KC_F14,  KC_F15,  KC_F16, KC_F17, KC_F18, KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
     KC_ESC,           KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_F5,  KC_F6,  KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,                   KC_PSCR, KC_SLCK, KC_PAUS,    KC_VOLD, KC_VOLU, KC_MUTE, KC_PWR,     KC_HELP,
     TO_MOV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_JYEN, KC_BSPC,         KC_INS,  KC_HOME, KC_PGUP,    KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,    KC_STOP, KC_AGIN,
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,   KC_J,   KC_L,   KC_U,    KC_Y,    KC_QUOT, KC_LBRC, KC_RBRC,          KC_DEL,          KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
-    KC_CAPS, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,   KC_M,   KC_N,   KC_E,    KC_I,    KC_O   , KC_SLSH,          KC_NUHS, KC_SFTENT,                                     KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
-    KC_LEAD, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  KC_SCLN,          DF_COLM, KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
-    TD_DCTL, KC_LGUI, TT_PROG, KC_MHEN, KC_HANJ,        TD_SPC,          KC_HAEN, KC_HENK, DF_QWRT, TT_PROG, KC_RGUI, KC_APP,  TD_DALT,         KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
+    KC_CAPS, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,   KC_M,   KC_N,   KC_E,    KC_I,    KC_O,    RC_SLSH,          KC_NUHS, KC_ENT,                                        KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
+    KC_LEAD, KC_NUBS, LS_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  RS_SCLN,          DF_COLM, KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
+    TD_DCTL, KC_LGUI, TT_PROG, KC_MHEN, KC_HANJ,        KC_SPC,          KC_HAEN, KC_HENK, DF_QWRT, TT_PROG, KC_RGUI, KC_APP, TD_DALT,          KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
 
     [_PROGKEYS] = LAYOUT_all(
@@ -101,11 +105,23 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,
     KC_ESC,           KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,               KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO,
     TO_COLM, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_BSPC,    KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
-    KC_TAB,  KC_HOME, KC_PGUP, KC_UP,   KC_PGDN, KC_NO,   KC_NO,   KC_WH_U, KC_MS_U, KC_WH_D, KC_ACL0, KC_NO,   KC_NO,            KC_DEL,     KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
-    KC_NO,   KC_END,  KC_LEFT, KC_DOWN, KC_RGHT, KC_BTN3, KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, KC_ACL1, KC_NO,            KC_NO,   KC_BTN2,                             KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
-    KC_LSFT, KC_NO,   KC_UNDO, KC_CUT,  KC_COPY, KC_PSTE, KC_AGIN, KC_NO,   KC_NO,   KC_NO,   KC_NO,   KC_ACL2,          KC_NO,   TO_COLM,           KC_NO,            KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_TAB,  KC_NO,   KC_WH_U, KC_MS_U, KC_WH_D, KC_NO,   KC_NO,   KC_PGUP, KC_UP,   KC_PGDN, KC_HOME, KC_NO,   KC_NO,            KC_DEL,     KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_NO,   KC_NO,   KC_MS_L, KC_MS_D, KC_MS_R, KC_NO,   KC_BTN3, KC_LEFT, KC_DOWN, KC_RGHT, KC_END,  KC_NO,            KC_NO,   KC_BTN2,                             KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
+    KC_LSFT, KC_NO,   KC_UNDO, KC_CUT,  KC_COPY, KC_PSTE, KC_AGIN, KC_NO,   KC_ACL2, KC_ACL1, KC_ACL0, KC_NO,            KC_NO,   TO_COLM,           KC_NO,            KC_NO, KC_NO, KC_NO, KC_NO,     KC_NO, KC_NO,
     KC_LCTL, KC_LGUI, TO_COLM, KC_NO,   KC_NO,           KC_BTN1,           KC_NO,   KC_NO,   KC_NO,   TO_COLM, KC_RGUI, KC_APP,  KC_NO,      KC_NO, KC_NO, KC_NO,     KC_NO,        KC_NO, KC_NO,     KC_NO, KC_NO
     ),
+
+/*
+    [_UMLAUTE] = LAYOUT_all(
+                      ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,
+    ______,           ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,             ______,______,______,    ______,______,______,______,    ______,
+    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______, ______,     ______,______,______,    ______,______,______,______,    ______,______,
+    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______,         ______,     ______,______,______,    ______,______,______,______,    ______,______,
+    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______,         ______, ______,                              ______,______,______,______,    ______,______,
+    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______,         ______, ______,            ______,           ______,______,______,______,    ______,______,
+    ______,  ______,  ______,  ______,  ______,         ______,           ______, ______,  ______, ______, ______, ______, ______,     ______,______,______,    ______,       ______,______,    ______,______
+    ),
+    */
 
     [_QWERTY] = LAYOUT_all(
                       KC_F13,  KC_F14,  KC_F15,  KC_F16, KC_F17, KC_F18, KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
