@@ -16,7 +16,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include QMK_KEYBOARD_H
-#include <print.h>
 
 
 // Tap Dance declarations
@@ -49,10 +48,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #else
 #  define _UMLAUTE    (3)
 #  define _QWERTY     (4)
-#  define SL_UMLT     KC_4
 #  define KC_UMLT     KC_LSFT
-// #  define KC_UMLT     OSL(_UMLAUTE)
-// #  define KC_UMLT     SL_UMLT
 #endif
 #define TD_DALT     TD(TD_LALT_RALT)
 #define TD_DCTL     TD(TD_LCTL_RCTL)
@@ -167,11 +163,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifndef LEADER_ENABLE
+#if 0
 enum combo_events {
   SPC_ENT_2_UMLAUTE,
 };
 
-#if 0
 const uint16_t PROGMEM activate_umlaute[] = {KC_SPC, KC_ENT, COMBO_END};
 
 #define COMBO_COUNT (1)
@@ -190,14 +186,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 }
 #endif
 
-void keyboard_post_init_user(void) {
-  // Customise these values to desired behaviour
-  debug_enable=true;
-  // debug_matrix=true;
-  //debug_keyboard=true;
-  //debug_mouse=true;
-}
-
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t key_timer = 0;
@@ -208,11 +196,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       shift_active = 1;
       key_timer = timer_read();
       return false;
-    } else if(timer_elapsed(key_timer) < 120) {
-      // switch was tapped without any other key, make sure to clear any shift flags
+    } else if(shift_active && timer_elapsed(key_timer) < TAPPING_TERM) {
       shift_active = 0;
-      uint8_t saved_mods = get_mods() & MOD_MASK_SHIFT; // Mask off anything that isn't Shift
-      del_mods(saved_mods); // Remove any Shifts present
       layer_on(_UMLAUTE);
       return false;
     }
@@ -247,7 +232,7 @@ void matrix_scan_user(void) {
     SEQ_ONE_KEY(KC_U) {
       SEND_STRING(SS_RALT("y"));
     }
-    // KC_LEAD + S sends ss
+    // KC_LEAD + S sends sz
     SEQ_ONE_KEY(KC_S) {
       SEND_STRING(SS_RALT("s"));
     }
