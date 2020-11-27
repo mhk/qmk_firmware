@@ -50,8 +50,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #  define _UMLAUTE    (3)
 #  define _QWERTY     (4)
 #  define SL_UMLT     KC_4
+#  define KC_UMLT     KC_LSFT
 // #  define KC_UMLT     OSL(_UMLAUTE)
-#  define KC_UMLT     LSFT_T(KC_NO)
 // #  define KC_UMLT     SL_UMLT
 #endif
 #define TD_DALT     TD(TD_LALT_RALT)
@@ -75,8 +75,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_UE       RALT(KC_Y)
 #define KC_SZ       RALT(KC_S)
 
-// #undef KC_UMLT
-// #define KC_UMLT LSFT_T(KC_A)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* 0: plain Qwerty without layer switching
@@ -104,7 +102,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TO_MOV,  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,   KC_6,   KC_7,   KC_8,    KC_9,    KC_0,    KC_MINS, KC_EQL,  KC_JYEN, KC_BSPC,         KC_INS,  KC_HOME, KC_PGUP,    KC_NLCK, KC_PSLS, KC_PAST, KC_PMNS,    KC_STOP, KC_AGIN,
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,   KC_J,   KC_L,   KC_U,    KC_Y,    KC_QUOT, KC_LBRC, KC_RBRC,          KC_DEL,          KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
     KC_CAPS, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,   KC_M,   KC_N,   KC_E,    KC_I,    KC_O,    RC_SLSH,          KC_NUHS, KC_ENT,                                        KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
-    KC_UMLT, KC_NUBS, LS_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  RS_SCLN,          DF_COLM, KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
+    KC_UMLT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  KC_SCLN,          DF_COLM, KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
     TD_DCTL, KC_LGUI, TT_PROG, KC_MHEN, KC_HANJ,        KC_SPC,          KC_HAEN, KC_HENK, DF_QWRT, TT_PROG, KC_RGUI, KC_APP, TD_DALT,          KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
 
@@ -203,27 +201,29 @@ void keyboard_post_init_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   static uint16_t key_timer = 0;
-  // static uint8_t saved_mods = 0;
-#ifdef CONSOLE_ENABLE
-    uprintf("Pre KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-#endif
-  if(KC_UMLT == keycode) {
+  static uint8_t shift_active = 0;
+  // If shift is tapped without any other keypress switch to the UMLAUTE layer
+  if(KC_UMLT == keycode && !IS_LAYER_ON(_UMLAUTE)) {
     if(record->event.pressed) {
+      shift_active = 1;
       key_timer = timer_read();
-    } else {
-      if(!IS_LAYER_ON(_UMLAUTE) && timer_elapsed(key_timer) < 80) {
-        layer_on(_UMLAUTE);
-        uint8_t saved_mods = get_mods() & MOD_MASK_SHIFT; // Mask off anything that isn't Shift
-        del_mods(saved_mods); // Remove any Shifts present
-        // return false;
-      }
+      return false;
+    } else if(timer_elapsed(key_timer) < 120) {
+      // switch was tapped without any other key, make sure to clear any shift flags
+      shift_active = 0;
+      uint8_t saved_mods = get_mods() & MOD_MASK_SHIFT; // Mask off anything that isn't Shift
+      del_mods(saved_mods); // Remove any Shifts present
+      layer_on(_UMLAUTE);
+      return false;
     }
-  } else if(IS_LAYER_ON(_UMLAUTE) && !record->event.pressed) {
+  }
+  if(shift_active) {
+    register_code(KC_LSFT);
+    shift_active = 0;
+  }
+  if(IS_LAYER_ON(_UMLAUTE) && !record->event.pressed) {
     layer_off(_UMLAUTE);
   }
-#ifdef CONSOLE_ENABLE
-    uprintf("Post KL: kc: %u, col: %u, row: %u, pressed: %u\n", keycode, record->event.key.col, record->event.key.row, record->event.pressed);
-#endif
   return true;
 }
 
