@@ -31,29 +31,37 @@ hasu_layout = hasu_layout_oth
 
 
 layers = {
-        '_QWERTY'     : 0,
-        '_COLEMAKDHM' : 1,
-        '_PROGKEYS'   : 2,
-        '_UMLAUTE'    : 3,
-        '_MOVEMENT'   : 4,
+        '_COLEMAKDHM' : 0,
+        '_PROGKEYS'   : 1,
+        '_UMLAUTE'    : 2,
+        '_MOVEMENT'   : 3,
+        '_QWERTY'     : 4,
         }
 
 replacements = [
-        ('RALT(KC_Q)', 'KC_AE',    '_UMLAUTE'),
-        ('RALT(KC_P)', 'KC_OE',    '_UMLAUTE'),
-        ('RALT(KC_Y)', 'KC_UE',    '_UMLAUTE'),
-        ('RALT(KC_S)', 'KC_SZ',    '_UMLAUTE'),
-        ('KC_DLR'    , 'KC_CRNCY', '_PROGKEYS'),
-        ('DF(0)'     , 'DF_QWRT',  '*'),
-        ('DF(1)'     , 'DF_COLM',  '*'),
-        ('TT(2)'     , 'TT_PROG',  '*'),
-        ('TO(4)'     , 'TO_MOV' ,  '*'),
-        ('KC_LCTL'   , 'TD_DCTL',  '_COLEMAKDHM'),
-        ('KC_LSFT'   , 'KC_UMLT',  '_COLEMAKDHM'),
-        ('KC_RCTL'   , 'TD_DALT',  '_COLEMAKDHM'),
+        ('RALT(KC_Q)', 'KC_AE'   , '_UMLAUTE'),
+        ('RALT(KC_P)', 'KC_OE'   , '_UMLAUTE'),
+        ('RALT(KC_Y)', 'KC_UE'   , '_UMLAUTE'),
+        ('RALT(KC_S)', 'KC_SZ'   , '_UMLAUTE'),
+        ('DF(4)'     , 'DF_QWRT' , '*'),
+        ('DF(0)'     , 'DF_COLM' , '*'),
+        ('TT(1)'     , 'TT_PROG' , '*'),
+        ('TO(3)'     , 'TO_MOV'  , '*'),
+        ('KC_LCTL'   , 'TD_DCTL' , '_COLEMAKDHM'),
+        ('KC_LSFT'   , 'KC_UMLT' , '_COLEMAKDHM'),
+        ('KC_RCTL'   , 'TD_DALT' , '_COLEMAKDHM'),
+        ('KC_HASH'   , 'TD_KHCIR', '_PROGKEYS'),
+        ('KC_DLR'    , 'TD_CRNCY', '_PROGKEYS'),
         ]
 
 unit = 10
+
+def id2name(i):
+    for k in layers:
+        if i == layers[k]:
+            return k
+    assert(False)
+
 
 with open(sys.argv[1], 'r') as f:
     data = f.read()
@@ -73,7 +81,7 @@ for old, new, layer in replacements:
 layout_no = 0
 for match in matches:
     keys = list(map(str.strip, match.split(',')))
-    sys.stdout.write('[{}] = LAYOUT_all(\n'.format(layout_no))
+    sys.stdout.write('[{}] = LAYOUT_all(\n'.format(id2name(layout_no)))
     layout_no += 1
     for row in hasu_layout:
         for weight in row:
@@ -86,7 +94,8 @@ for match in matches:
                 key = keys.pop(0)
                 if 'KC_SPC' == key:
                     align = '^'
-                key += ','
+                if len(keys) > 0:
+                    key += ','
                 sys.stdout.write('{:{align}{width}}'.format(key, align=align, width=width))
         sys.stdout.write("\n")
     sys.stdout.write("),\n")
