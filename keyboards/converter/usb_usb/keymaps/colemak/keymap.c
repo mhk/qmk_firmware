@@ -26,6 +26,7 @@ enum {
     TD_CLY_BRCKT,
     TD_RND_BRCKT,
     TD_SQR_BRCKT,
+    TD_EURO_SIGN,
 };
 
 // Tap Dance definitions
@@ -34,9 +35,12 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_LSFT_RSFT] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_RSFT),
     [TD_LCTL_RCTL] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL, KC_RCTL),
     [TD_LALT_RALT] = ACTION_TAP_DANCE_DOUBLE(KC_LALT, KC_RALT),
+    // Tap once for open round/curly/square braket, twice for close round/curly/square braket
     [TD_CLY_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LCBR, KC_RCBR),
     [TD_RND_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LPRN, KC_RPRN),
     [TD_SQR_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
+    // Tap once for dollar sign, twice for euro sign
+    [TD_CRNCY_SGN] = ACTION_TAP_DANCE_DOUBLE(KC_DLR , RALT(KC_5)),
 };
 
 #define _COLEMAKDHM (0)
@@ -69,6 +73,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_AE       RALT(KC_Q)
 #define KC_OE       RALT(KC_P)
 #define KC_UE       RALT(KC_Y)
+#define KC_CRNCY    TD(TD_CRNCY_SGN)
 #define KC_SZ       RALT(KC_S)
 
 
@@ -99,7 +104,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,   KC_J,   KC_L,   KC_U,    KC_Y,    KC_QUOT, KC_LBRC, KC_RBRC,          KC_DEL,          KC_DEL,  KC_END,  KC_PGDN,    KC_P7,   KC_P8,   KC_P9,   KC_PPLS,    KC_MENU, KC_UNDO,
     KC_CAPS, KC_A,    KC_R,    KC_S,    KC_T,    KC_G,   KC_M,   KC_N,   KC_E,    KC_I,    KC_O,    RC_SLSH,          KC_NUHS, KC_ENT,                                        KC_P4,   KC_P5,   KC_P6,   KC_PCMM,    KC_SLCT, KC_COPY,
     KC_UMLT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_D,   KC_V,   KC_K,   KC_H,    KC_COMM, KC_DOT,  KC_SCLN,          DF_COLM, KC_BSLS,                  KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
-    TD_DCTL, KC_LGUI, TT_PROG, KC_MHEN, KC_HANJ,        KC_SPC,          KC_HAEN, KC_HENK, DF_QWRT, TT_PROG, KC_RGUI, KC_APP, TD_DALT,          KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
+    TD_DCTL, KC_LGUI, TT_PROG, KC_MHEN, KC_HANJ,        KC_SPC,          KC_HAEN, KC_HENK, DF_QWRT, TT_PROG, KC_RGUI, KC_APP,  TD_DALT,         KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
 
     [_PROGKEYS] = LAYOUT_all(
@@ -108,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ______,  KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  ______,  ______,     ______,______,______,    ______,______,______,______,    ______,______,
     KC_CIRC, KC_QUOT, KC_TILD, KC_AMPR, TD_CBRC, KC_BSLS, KC_ASTR, KC_4,    KC_5,    KC_6,    KC_EXLM, KC_RCBR, ______,           ______,     ______,______,______,    ______,______,______,______,    ______,______,
     ______,  KC_DQUO, KC_UNDS, KC_EQL,  TD_RBRC, KC_AT,   KC_MINS, KC_1,    KC_2,    KC_3,    KC_PLUS, KC_RPRN,          ______,  ______,                              ______,______,______,______,    ______,______,
-    KC_0,    KC_RBRC, KC_GRV,  KC_DLR,  KC_PIPE, TD_SBRC, KC_HASH, KC_PERC, KC_7,    KC_8,    KC_9,    KC_QUES,          ______,  ______,            ______,           ______,______,______,______,    ______,______,
+    KC_0,    KC_RBRC, KC_GRV,  KC_CRNCY,KC_PIPE, TD_SBRC, KC_HASH, KC_PERC, KC_7,    KC_8,    KC_9,    KC_QUES,          ______,  ______,            ______,           ______,______,______,______,    ______,______,
     ______,  ______,  TO_COLM, ______,  ______,         ______,             ______,  ______,  ______,  TO_COLM, ______,  ______,  ______,     ______,______,______,    ______,       ______,______,    ______,______
     ),
 
