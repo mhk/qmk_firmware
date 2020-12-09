@@ -26,7 +26,8 @@ enum {
     TD_CLY_BRCKT,
     TD_RND_BRCKT,
     TD_SQR_BRCKT,
-    TD_EURO_SIGN,
+    TD_CRNCY_SGN,
+    TD_HASH_CIRC,
 };
 
 // Tap Dance definitions
@@ -41,19 +42,15 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_SQR_BRCKT] = ACTION_TAP_DANCE_DOUBLE(KC_LBRC, KC_RBRC),
     // Tap once for dollar sign, twice for euro sign
     [TD_CRNCY_SGN] = ACTION_TAP_DANCE_DOUBLE(KC_DLR , RALT(KC_5)),
+    [TD_HASH_CIRC] = ACTION_TAP_DANCE_DOUBLE(KC_HASH ,KC_CIRC),
 };
 
 #define _COLEMAKDHM (0)
 #define _PROGKEYS   (1)
 #define _MOVEMENT   (2)
-#ifdef LEADER_ENABLE
-#  define _QWERTY     (3)
-#  define KC_UMLT     KC_LEAD
-#else
-#  define _UMLAUTE    (3)
-#  define _QWERTY     (4)
-#  define KC_UMLT     KC_LSFT
-#endif
+#define _UMLAUTE    (3)
+#define _QWERTY     (4)
+#define KC_UMLT     KC_LSFT
 #define TD_DALT     TD(TD_LALT_RALT)
 #define TD_DCTL     TD(TD_LCTL_RCTL)
 #define TD_DSFT     TD(TD_LSFT_RSFT)
@@ -73,7 +70,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define KC_AE       RALT(KC_Q)
 #define KC_OE       RALT(KC_P)
 #define KC_UE       RALT(KC_Y)
-#define KC_CRNCY    TD(TD_CRNCY_SGN)
+#define TD_CRNCY    TD(TD_CRNCY_SGN)
+#define TD_KHCIR    TD(TD_HASH_CIRC)
 #define KC_SZ       RALT(KC_S)
 
 
@@ -127,7 +125,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LCTL, KC_LGUI, TO_COLM, KC_NO,   KC_NO,           KC_BTN1,           KC_NO,   KC_NO,   KC_NO,   TO_COLM, KC_RGUI, KC_APP,  KC_NO,      KC_NO, KC_NO, KC_NO,     KC_NO,        KC_NO, KC_NO,     KC_NO, KC_NO
     ),
 
-#ifndef LEADER_ENABLE
     [_UMLAUTE] = LAYOUT_all(
                       ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,
     ______,           ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,             ______,______,______,    ______,______,______,______,    ______,
@@ -137,7 +134,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______,         ______, ______,            ______,           ______,______,______,______,    ______,______,
     ______,  ______,  ______,  ______,  ______,         ______,           ______, ______,  ______, ______, ______, ______, ______,     ______,______,______,    ______,       ______,______,    ______,______
     ),
-#endif
 
     [_QWERTY] = LAYOUT_all(
                       KC_F13,  KC_F14,  KC_F15,  KC_F16, KC_F17, KC_F18, KC_F19,  KC_F20,  KC_F21,  KC_F22,  KC_F23,  KC_F24,
@@ -148,48 +144,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LSFT, KC_NUBS, KC_Z,    KC_X,    KC_C,    KC_V,   KC_B,   KC_N,   KC_M,    KC_COMM, KC_DOT,  KC_SLSH,          DF_COLM, KC_RSFT,              KC_UP,               KC_P1,   KC_P2,   KC_P3,   KC_PEQL,    KC_EXEC, KC_PSTE,
     KC_LCTL, KC_LGUI, KC_LALT, KC_MHEN, KC_HANJ,         KC_SPC,         KC_HAEN, KC_HENK, DF_QWRT, KC_RALT, KC_RGUI, KC_APP,  KC_RCTL,     KC_LEFT, KC_DOWN, KC_RGHT,    KC_P0,            KC_PDOT, KC_PENT,    KC_FIND, KC_CUT
     ),
-
-#if 0
-    [_PROGKEYS] = LAYOUT_all(
-                      ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,
-    ______,           ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______,             ______,______,______,    ______,______,______,______,    ______,
-    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______, ______, ______,     ______,______,______,    ______,______,______,______,    ______,______,
-    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______, ______,         ______,     ______,______,______,    ______,______,______,______,    ______,______,
-    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______,         ______, ______,                              ______,______,______,______,    ______,______,
-    ______,  ______,  ______,  ______,  ______, ______, ______,  ______,  ______, ______,  ______, ______,         ______, ______,            ______,           ______,______,______,______,    ______,______,
-    ______,  ______,  ______,  ______,  ______,         ______,           ______, ______,  ______, ______, ______, ______, ______,     ______,______,______,    ______,       ______,______,    ______,______
-    ),
-      RESET, KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_F11, KC_F12, ______, ______, ______, ______, ______, ______, ______, ______,
-      ______, KC_EXLM, KC_AT, KC_PLUS, KC_LCBR, KC_TILD, ______, KC_4, KC_5, KC_6, KC_RCBR, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______,
-      ______, KC_HASH, KC_DLR, KC_EQL, KC_LPRN, KC_GRV, KC_0, KC_1, KC_2, KC_3, KC_RPRN, ______, ______, ______, ______, ______, ______,
-      ______, ______, KC_PERC, KC_CIRC, KC_MINS, KC_LBRC, KC_PIPE, KC_AMPR, KC_7, KC_8, KC_9, KC_RBRC, ______, ______, ______, ______, ______, ______,
-      ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______, ______)
-#endif
 };
 
-#ifndef LEADER_ENABLE
-#if 0
-enum combo_events {
-  SPC_ENT_2_UMLAUTE,
-};
-
-const uint16_t PROGMEM activate_umlaute[] = {KC_SPC, KC_ENT, COMBO_END};
-
-#define COMBO_COUNT (1)
-combo_t key_combos[COMBO_COUNT] = {
-  [SPC_ENT_2_UMLAUTE] = COMBO_ACTION(activate_umlaute),
-};
-
-void process_combo_event(uint16_t combo_index, bool pressed) {
-  switch(combo_index) {
-    case SPC_ENT_2_UMLAUTE:
-      if (pressed) {
-        // tap_code16(LCTL(KC_C));
-      }
-      break;
-}
-}
-#endif
 
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -217,30 +173,3 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
-#else // LEADER_ENABLE == true
-LEADER_EXTERNS();
-
-void matrix_scan_user(void) {
-  LEADER_DICTIONARY() {
-    leading = false;
-    leader_end();
-
-    // KC_LEAD + A sends ae
-    SEQ_ONE_KEY(KC_A) {
-      SEND_STRING(SS_RALT("q"));
-    }
-    // KC_LEAD + O sends oe
-    SEQ_ONE_KEY(KC_O) {
-      SEND_STRING(SS_RALT("p"));
-    }
-    // KC_LEAD + U sends ue
-    SEQ_ONE_KEY(KC_U) {
-      SEND_STRING(SS_RALT("y"));
-    }
-    // KC_LEAD + S sends sz
-    SEQ_ONE_KEY(KC_S) {
-      SEND_STRING(SS_RALT("s"));
-    }
-  }
-}
-#endif
