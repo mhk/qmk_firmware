@@ -118,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_NO,              KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_UE,    KC_UE,    KC_OE,    KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_NO,              KC_AE,    KC_SZ,    KC_SZ,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_OE,    KC_NO,    KC_NO,    KC_NO,                                            KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
-  KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,              KC_NO,                   KC_NO,                   KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
+  KC_TRNS,  KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,              KC_NO,                   KC_NO,                   KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,                        KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,         KC_NO,              KC_NO,    KC_NO,         KC_NO,    KC_NO
   ),
   [_MOVEMENT] = LAYOUT_all(
@@ -146,7 +146,7 @@ static uint16_t key_timer = 0;
 static uint8_t shift_active = 0;
 
 void matrix_scan_user(void) {
-  if(shift_active && timer_elapsed(key_timer) < TAPPING_TERM) {
+  if(shift_active && !IS_LAYER_ON(_UMLAUTE) && timer_elapsed(key_timer) > TAPPING_TERM) {
     register_code(KC_LSFT);
     shift_active = 0;
   }
