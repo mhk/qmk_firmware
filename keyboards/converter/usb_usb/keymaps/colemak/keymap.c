@@ -141,6 +141,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 };
 
+#ifdef COMBO_ENABLE
+enum combo_events {
+  TO_MOVEMENT,
+};
+
+const uint16_t PROGMEM switch_to_movement[] = {KC_ENT, KC_SPC, COMBO_END};
+combo_t key_combos[COMBO_COUNT] = {
+  [TO_MOVEMENT] = COMBO_ACTION(switch_to_movement),
+};
+
+void process_combo_event(uint16_t combo_index, bool pressed) {
+  switch(combo_index) {
+    case TO_MOVEMENT:
+      if(pressed) {
+        layer_on(_MOVEMENT);
+      }
+      break;
+  }
+}
+#endif
+
 
 static uint16_t key_timer = 0;
 static uint8_t shift_active = 0;

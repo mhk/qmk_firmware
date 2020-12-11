@@ -19,9 +19,9 @@ EXTRAFLAGS += -flto
 #
 #BOOTMAGIC_ENABLE = yes  # Virtual DIP switch configuration
 MOUSEKEY_ENABLE  = yes  # Mouse keys
-EXTRAKEY_ENABLE  = yes  # Audio control and System control
+#EXTRAKEY_ENABLE  = yes  # Audio control and System control
 #LEADER_ENABLE  = yes    # Leader key
-#COMBO_ENABLE = yes
+COMBO_ENABLE = yes
 #CONSOLE_ENABLE   = yes  # Console for debug
 #COMMAND_ENABLE   = yes  # Commands for debug and configuration
 #SLEEP_LED_ENABLE = yes  # Breathing sleep LED during USB suspend
