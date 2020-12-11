@@ -107,9 +107,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,
   KC_TRNS,            KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                 KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,
   RESET,    KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
-  KC_TRNS,            TD_CRNCY, KC_6,     KC_5,     KC_4,     KC_ASTR,  KC_BSLS,  KC_LCBR,  KC_AMPR,  KC_TILD,  KC_GRV,   KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
-  KC_TRNS,            KC_PLUS,  KC_3,     KC_2,     KC_1,     KC_MINS,  KC_AT,    KC_LPRN,  KC_EQL,   KC_UNDS,  KC_DQUO,  KC_TRNS,  KC_TRNS,  KC_TRNS,                                          KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
-  KC_0,     KC_TRNS,  KC_PIPE,  KC_9,     KC_8,     KC_7,     KC_PERC,  TD_KHCIR, KC_LBRC,  KC_COMM,  KC_DOT,   KC_EXLM,  KC_TRNS,            KC_TRNS,                 KC_TRNS,                 KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
+  KC_TRNS,            KC_GRV,   KC_TILD,  KC_AMPR,  TD_CBRC,  KC_BSLS,  KC_ASTR,  KC_5,     KC_6,     KC_7,     KC_8,     KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
+  KC_TRNS,            KC_DQUO,  KC_UNDS,  KC_EQL,   TD_RBRC,  KC_AT,    KC_PLUS,  KC_1,     KC_2,     KC_3,     KC_4,     KC_TRNS,  KC_TRNS,  KC_TRNS,                                          KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
+  KC_0,     KC_TRNS,  KC_EXLM,  KC_PIPE,  TD_CRNCY, TD_SBRC,  TD_KHCIR, KC_PERC,  KC_9,     KC_COMM,  KC_DOT,   KC_MINS,  KC_TRNS,            KC_TRNS,                 KC_TRNS,                 KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,
   KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,                      KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS,  KC_TRNS,       KC_TRNS,            KC_TRNS,  KC_TRNS,       KC_TRNS,  KC_TRNS
   ),
   [_UMLAUTE] = LAYOUT_all(
@@ -123,8 +123,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
   [_MOVEMENT] = LAYOUT_all(
                       KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,
-  KC_NO,              KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,                   KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,
-  KC_TRNS,  KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_BSPC,       KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
+  KC_ESC,             KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,                   KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,
+  TO_COLM,  KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_NO,    KC_BSPC,       KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_TAB,             KC_NO,    KC_WH_U,  KC_MS_U,  KC_WH_D,  KC_NO,    KC_NO,    KC_PGUP,  KC_UP,    KC_PGDN,  KC_HOME,  KC_NO,    KC_NO,    KC_DEL,        KC_DEL,   KC_NO,    KC_NO,         KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_NO,              KC_NO,    KC_MS_L,  KC_MS_D,  KC_MS_R,  KC_NO,    KC_BTN3,  KC_LEFT,  KC_DOWN,  KC_RGHT,  KC_END,   KC_NO,    KC_NO,    KC_BTN2,                                          KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,
   KC_LSFT,  KC_NO,    KC_UNDO,  KC_CUT,   KC_COPY,  KC_PSTE,  KC_AGIN,  KC_NO,    KC_ACL2,  KC_ACL1,  KC_ACL0,  KC_NO,    KC_NO,              KC_RSFT,                 KC_NO,                   KC_NO,    KC_NO,    KC_NO,    KC_NO,         KC_NO,    KC_NO,

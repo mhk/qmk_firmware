@@ -52,6 +52,10 @@ replacements = [
         ('KC_RCTL'   , 'TD_DALT' , '_COLEMAKDHM'),
         ('KC_HASH'   , 'TD_KHCIR', '_PROGKEYS'),
         ('KC_DLR'    , 'TD_CRNCY', '_PROGKEYS'),
+        ('KC_LCBR'   , 'TD_CBRC' , '_PROGKEYS'),
+        ('KC_LPRN'   , 'TD_RBRC' , '_PROGKEYS'),
+        ('KC_LBRC'   , 'TD_SBRC' , '_PROGKEYS'),
+        ('KC_TRNS'   , 'TO_COLM' , '_MOVEMENT'),
         ]
 
 unit = 10
@@ -81,9 +85,10 @@ for old, new, layer in replacements:
 layout_no = 0
 for match in matches:
     keys = list(map(str.strip, match.split(',')))
-    sys.stdout.write('[{}] = LAYOUT_all(\n'.format(id2name(layout_no)))
+    sys.stdout.write('  [{}] = LAYOUT_all(\n'.format(id2name(layout_no)))
     layout_no += 1
     for row in hasu_layout:
+        sys.stdout.write('  ')
         for weight in row:
             width = abs(weight) * unit // 100;
             if(weight < 0):
@@ -98,5 +103,5 @@ for match in matches:
                     key += ','
                 sys.stdout.write('{:{align}{width}}'.format(key, align=align, width=width))
         sys.stdout.write("\n")
-    sys.stdout.write("),\n")
+    sys.stdout.write("  ),\n")
 
