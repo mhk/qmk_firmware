@@ -127,6 +127,8 @@ enum {
     TD_SQR_BRCKT,
     TD_CRNCY_SGN,
     TD_HASH_CIRC,
+    TD_LCTL_LALT,
+    TD_RCTL_RALT,
 };
 
 // Tap Dance definitions
@@ -142,6 +144,9 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     // Tap once for dollar sign, twice for euro sign
     [TD_CRNCY_SGN] = ACTION_TAP_DANCE_DOUBLE(KC_DLR , RALT(KC_5)),
     [TD_HASH_CIRC] = ACTION_TAP_DANCE_DOUBLE(KC_HASH ,KC_CIRC),
+    // Tap once for left/right ctrl, twice for left/right alt
+    [TD_LCTL_LALT] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL ,KC_LALT),
+    [TD_RCTL_RALT] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL ,KC_RALT),
 };
 
 #define _COLEMAKDHM (0)
@@ -160,17 +165,16 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_SBRC     TD(TD_SQR_BRCKT)
 #define TD_CRNCY    TD(TD_CRNCY_SGN)
 #define TD_KHCIR    TD(TD_HASH_CIRC)
+#define TD_LCTAL    TD(TD_LCTL_LALT)
+#define TD_RCTAL    TD(TD_RCTL_RALT)
 
 enum custom_keycodes {
   ST_MACRO_0  = SAFE_RANGE,
   ST_MACRO_1,
-  ST_MACRO_2,
-  ST_MACRO_3,
-  ST_MACRO_4,
-  ST_MACRO_5,
-  ST_MACRO_6,
-  ST_MACRO_7,
-  ST_MACRO_8,
+  CK_AE,
+  CK_SZ,
+  CK_UE,
+  CK_OE,
   ON_PLOVER,
   OFF_PLOVER,
 };
@@ -201,7 +205,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       KC_NO,
     KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           KC_LALT,                                        KC_RALT,        KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           TG(2),          TG(4),          ON_PLOVER,      TG(2),          KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
-                                                                    TT(1),          KC_ENTER,       KC_LSHIFT,      KC_LCTRL,       KC_RCTRL,       KC_RSHIFT,      KC_SPACE,       TT(1)
+                                                                    TT(1),          KC_ENTER,       KC_LSHIFT,      TD_LCTAL,       TD_RCTAL,       KC_RSHIFT,      KC_SPACE,       TT(1)
     ),
 
 [_PROGKEYS] = LAYOUT_gergo(
@@ -219,8 +223,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 [_UMLAUTE] = LAYOUT_gergo(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, ST_MACRO_5,     ST_MACRO_6,     ST_MACRO_7,     KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, ST_MACRO_2,     ST_MACRO_3,     ST_MACRO_4,     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, ST_MACRO_8,     KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, CK_UE,          CK_UE,          CK_OE,          KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, CK_AE,          CK_SZ,          CK_SZ,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, CK_OE,          KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_RSHIFT,      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
     ),
@@ -229,7 +233,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_LBRACKET,
     KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_LALT,                                        KC_RALT,        KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
-                                                                    KC_LALT,        KC_ENTER,       KC_LSHIFT,      KC_LCTRL,       KC_RCTRL,       KC_RSHIFT,      KC_SPACE,       KC_RALT
+                                                                    KC_LALT,        KC_ENTER,       KC_LSHIFT,      TD_LCTAL,       TD_RCTAL,       KC_RSHIFT,      KC_SPACE,       KC_RALT
     ),
 
 [_ONETS] = LAYOUT_gergo(
@@ -314,39 +318,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       SEND_STRING(SS_LCTL(SS_TAP(X_Y)));
     }
     break;
-    case ST_MACRO_2:
+    case CK_AE:
     if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_Q)));
+      SEND_STRING("\"a");
     }
     break;
-    case ST_MACRO_3:
+    case CK_SZ:
     if (record->event.pressed) {
       SEND_STRING(SS_RALT(SS_TAP(X_S)));
     }
     break;
-    case ST_MACRO_4:
+    case CK_UE:
     if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_S)));
+      SEND_STRING("\"u");
     }
     break;
-    case ST_MACRO_5:
+    case CK_OE:
     if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_Y)));
-    }
-    break;
-    case ST_MACRO_6:
-    if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_Y)));
-    }
-    break;
-    case ST_MACRO_7:
-    if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_P)));
-    }
-    break;
-    case ST_MACRO_8:
-    if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_P)));
+      SEND_STRING("\"o");
     }
     break;
 #if 0
