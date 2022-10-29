@@ -8,100 +8,6 @@
 
 #include QMK_KEYBOARD_H
 
-#if 0
-#define BASE 0 // default layer
-#define SYMB 1 // symbols
-#define NUMB 2 // numbers/motion
-
-// Blank template at the bottom
-
-enum customKeycodes {
-	URL  = 1
-};
-
-
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap 0: Basic layer
- *
- * ,-------------------------------------------.                         ,-------------------------------------------.
- * | L1/ESC |   Q  |   W  |   E  |   R  |   T  |                         |   Y  |   U  |   I  |   O  |   P  |  | \   |
- * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |Ctrl/BS |   A  |   S  |  D   |   F  |   G  | RMB  |           |      |   H  |   J  |   K  |   L  | ;  : |  ' "   |
- * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * | LShift |   Z  |   X  |   C  |   V  |   B  | LMB  |           |      |   N  |   M  | ,  < | . >  | /  ? |  - _   |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *                    .----------.   .-------.                                 .------.   .-----.
- *                    | Super/Del|   |Ent/ALT|                                 | Tab  |   |BKSP |
- *                    '----------'   '-------'                                 `------.   '-----'
- *                                        ,-------.                      ,-------.
- *                                        | MMB   |                      | PgDn  |
- *                                 ,------|-------|                      |-------|------.
- *                                 | SYMB | NUMB  |                      | SYMB  | NUMB |
- *                                 | Space| Escape|                      | Mod   |Space |
- *                                 |      |       |                      |       |      |
- *                                 `--------------'                      `--------------'
- */
-[BASE] = LAYOUT_gergo(
-    LT(NUMB, KC_ESC),       KC_Q,  KC_W,   KC_E,   KC_R, KC_T,                                          KC_Y,    KC_U, KC_I, KC_O,   KC_P,    KC_PIPE,
-    MT(MOD_LCTL, KC_BSPC),  KC_A,  KC_S,   KC_D,   KC_F, KC_G, KC_BTN2,                       KC_TRNS,  KC_H,    KC_J, KC_K, KC_L,   KC_SCLN, KC_QUOT,
-    KC_RSFT,                KC_Z,  KC_X,   KC_C,   KC_V, KC_B, KC_BTN1, KC_BTN3,     KC_PGDN, KC_BSPC,  KC_N, KC_M, KC_COMM, KC_DOT, KC_SLSH, KC_MINS,
-  MT(MOD_LGUI, KC_DEL), MT(MOD_LALT, KC_ENT), LT(SYMB, KC_SPC), LT(NUMB, KC_ESC),    LT(SYMB, KC_ENT), LT(NUMB, KC_SPC), KC_TAB, KC_BSPC
-    ),
-/* Keymap 1: Symbols layer
- *
- * ,-------------------------------------------.                         ,-------------------------------------------.
- * |        |  !   |  @   |  {   |  }   |  |   |                         |      |      |      |      |      |  \ |   |
- * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |        |  #   |  $   |  (   |  )   |  `   |      |           |      |   +  |  -   |  /   |  *   |  %   |  ' "   |
- * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |        |  %   |  ^   |  [   |  ]   |  ~   |      |           |      |   &  |  =   |  ,   |  .   |  / ? | - _    |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *                        .------.   .------.                                 .------.   .-----.
- *                        |      |   |      |                                 |      |   | DEL |
- *                        '------'   '------'                                 `------.   '-----'
- *                                        ,-------.                     ,-------.
- *                                        |       |                     | PgUp  |
- *                                 ,------|-------|                     |-------|------.
- *                                 |      |       |                     |       |      |
- *                                 |   ;  |   =   |                     |   =   |   ;  |
- *                                 |      |       |                     |       |      |
- *                                 `--------------'                     `--------------'
- */
-[SYMB] = LAYOUT_gergo(
-    KC_TRNS, KC_EXLM, KC_AT,   KC_LCBR, KC_RCBR, KC_PIPE,                                            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_BSLS,
-    KC_TRNS, KC_HASH, KC_DLR,  KC_LPRN, KC_RPRN, KC_GRV,  KC_TRNS,                          KC_TRNS, KC_PLUS, KC_MINS, KC_SLSH, KC_ASTR, KC_PERC, KC_QUOT,
-    KC_TRNS, KC_PERC, KC_CIRC, KC_LBRC, KC_RBRC, KC_TILD, KC_TRNS, KC_TRNS,        KC_TRNS, KC_TRNS, KC_AMPR, KC_EQL,  KC_COMM, KC_DOT,  KC_SLSH, KC_MINS,
-                                        KC_TRNS, KC_TRNS, KC_SCLN, KC_EQL,         KC_EQL,  KC_SCLN, KC_PGUP, KC_DEL
-    ),
-/* Keymap 2: Pad/Function layer
- *
- * ,-------------------------------------------.                         ,-------------------------------------------.
- * |        |   1  |  2   |  3   |  4   |  5   |                         |  6   |  7   |  8   |  9   |  0   |        |
- * |--------+------+------+------+------+------|------.           .------|------+------+------+------+------+--------|
- * |  F1    |  F2  | F3   | F4   | F5   | F6   | BTN1 |           |      | LEFT | DOWN |  UP  | RIGHT|VolDn | VolUp  |
- * |--------+------+------+------+------+------|------|           |------|------+------+------+------+------+--------|
- * |  F7    |  F8  | F9   | F10  | F11  | F12  | BTN2 |           |      | MLFT | MDWN | MUP  | MRGHT|Ply/Pa|  Skip  |
- * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *                        .------.   .------.                                 .------.   .-----.
- *                        |      |   |      |                                 |      |   |     |
- *                        '------'   '------'                                 `------.   '-----'
- *                                        ,-------.                     ,-------.
- *                                        |       |                     | PgUp  |
- *                                 ,------|-------|                     |-------|------.
- *                                 |      |       |                     |       |      |
- *                                 |      |       |                     |       |      |
- *                                 |      |       |                     |       |      |
- *                                 `--------------'                     `--------------'
- */
-[NUMB] = LAYOUT_gergo(
-    KC_TRNS, KC_1, 	  KC_2,    KC_3,    KC_4,    KC_5,                                             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_TRNS,
-    KC_TRNS, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,   KC_F6,                         KC_TRNS,  KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT, KC_VOLD, KC_VOLU,
-    KC_TRNS, KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_F11,  KC_F12,  KC_TRNS,     KC_TRNS, KC_TRNS,  KC_MS_L, KC_MS_D, KC_MS_U, KC_MS_R, KC_MPLY, KC_MNXT,
-                                        KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS,         KC_TRNS,  KC_TRNS, KC_TRNS, KC_TRNS
-    ),
-};
-#endif
-
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
 #define KC_MAC_COPY LGUI(KC_C)
@@ -127,8 +33,8 @@ enum {
     TD_SQR_BRCKT,
     TD_CRNCY_SGN,
     TD_HASH_CIRC,
-    TD_LCTL_LALT,
-    TD_RCTL_RALT,
+    TD_LCTL_LCMD,
+    TD_RCTL_RCMD,
 };
 
 // Tap Dance definitions
@@ -145,8 +51,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_CRNCY_SGN] = ACTION_TAP_DANCE_DOUBLE(KC_DLR , RALT(KC_5)),
     [TD_HASH_CIRC] = ACTION_TAP_DANCE_DOUBLE(KC_HASH ,KC_CIRC),
     // Tap once for left/right ctrl, twice for left/right alt
-    [TD_LCTL_LALT] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL ,KC_LALT),
-    [TD_RCTL_RALT] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL ,KC_RALT),
+    [TD_LCTL_LCMD] = ACTION_TAP_DANCE_DOUBLE(KC_LCTL ,KC_LCMD),
+    [TD_RCTL_RCMD] = ACTION_TAP_DANCE_DOUBLE(KC_RCTL ,KC_RCMD),
 };
 
 #define _COLEMAKDHM (0)
@@ -165,8 +71,8 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_SBRC     TD(TD_SQR_BRCKT)
 #define TD_CRNCY    TD(TD_CRNCY_SGN)
 #define TD_KHCIR    TD(TD_HASH_CIRC)
-#define TD_LCTAL    TD(TD_LCTL_LALT)
-#define TD_RCTAL    TD(TD_RCTL_RALT)
+#define TD_LCTCM    TD(TD_LCTL_LCMD)
+#define TD_RCTCM    TD(TD_RCTL_RCMD)
 
 enum custom_keycodes {
   ST_MACRO_0  = SAFE_RANGE,
@@ -204,8 +110,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLEMAKDHM] = LAYOUT_gergo(
     KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       KC_NO,
     KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           KC_LALT,                                        KC_RALT,        KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
-    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           TG(2),          TG(4),          ON_PLOVER,      TG(2),          KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
-                                                                    TT(1),          KC_ENTER,       KC_LSHIFT,      TD_LCTAL,       TD_RCTAL,       KC_RSHIFT,      KC_SPACE,       TT(1)
+    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           KC_NO,          TG(4),          ON_PLOVER,      KC_NO,          KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
+                                                                    TT(1),          KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       TT(1)
     ),
 
 [_PROGKEYS] = LAYOUT_gergo(
@@ -233,7 +139,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_LBRACKET,
     KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_LALT,                                        KC_RALT,        KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
-                                                                    KC_LALT,        KC_ENTER,       KC_LSHIFT,      TD_LCTAL,       TD_RCTAL,       KC_RSHIFT,      KC_SPACE,       KC_RALT
+                                                                    KC_LALT,        KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       KC_RALT
     ),
 
 [_ONETS] = LAYOUT_gergo(
