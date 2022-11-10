@@ -1,6 +1,6 @@
 {
-    "manufacturer": "Zach White",
-    "keyboard_name": "DirectPins ProMicro",
+    "manufacturer": "mhk",
+    "keyboard_name": "steno01",
     "maintainer": "skullydazed",
     "bootloader": "atmel-dfu",
     "debounce": 5,
@@ -23,7 +23,7 @@
     },
     "split": {
         "enabled": true,
-        "soft_serial_pin": "D2",
+        "soft_serial_pin": "D1",
         "transport": {
             "protocol": "serial"
         }
