@@ -9,7 +9,7 @@
             "KC_I"        , "KC_J",
             "KC_K"        , "KC_N",
             "KC_O"        , "KC_M",
-            "KC_L"        , "KC_0",
+            "KC_L"        , "KC_ENTER",
             "KC_P"        , "KC_QUOTE",
             "KC_SEMICOLON", "KC_LEFT_BRACKET",
                             "KC_T",
@@ -17,7 +17,7 @@
             "KC_E"        , "KC_F",
             "KC_D"        , "KC_V",
             "KC_W"        , "KC_C",
-            "KC_S"        , "KC_1",
+            "KC_S"        , "KC_BACKSPACE",
             "KC_Q"        , "KC_QUOTE",
             "KC_SEMICOLON", "KC_LEFT_BRACKET"
         ]
