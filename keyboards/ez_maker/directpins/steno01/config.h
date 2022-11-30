@@ -28,6 +28,8 @@
 
 #define EE_HANDS
 #define MASTER_LEFT
+#undef FORCE_NKRO
+#define FORCE_NKRO
 /* #define MASTER_RIGHT */
 
 /*
