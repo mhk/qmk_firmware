@@ -1,13 +1,11 @@
 {
     "manufacturer": "mhk",
     "keyboard_name": "steno01",
-    "maintainer": "skullydazed",
+    "maintainer": "mhk",
     "bootloader": "atmel-dfu",
     "debounce": 5,
     "features": {
-        "bootmagic": true,
-        "extrakey": true,
-        "mousekey": true
+        "nkro": true
     },
     "matrix_pins": {
         "direct": [
