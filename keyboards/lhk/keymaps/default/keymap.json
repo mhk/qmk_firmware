@@ -1,0 +1,12 @@
+{
+    "keyboard": "lhk",
+    "keymap": "colemak",
+    "layout": "LAYOUT_all",
+    "layers": [
+        [
+            "KC_TAB"   , "KC_Q", "KC_W", "KC_F", "KC_P", "KC_B", "KC_0", "KC_LCTRL" ,
+            "KC_ESCAPE", "KC_A", "KC_R", "KC_S", "KC_T", "KC_G", "KC_1", "KC_LSHIFT",
+            "KC_BSPACE", "KC_Z", "KC_X", "KC_C", "KC_D", "KC_V", "KC_2", "KC_ENTER" 
+        ]
+    ]
+}
