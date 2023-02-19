@@ -24,8 +24,12 @@
         "nkro": true
     },
     "split": {
-        "soft_serial_pin": "D2",
-        "main": "left"
+        "enabled": true,
+        "soft_serial_pin": "D1",
+        "main": "left",
+        "transport": {
+            "protocol": "serial"
+        }
     },
     "layouts": {
         "LAYOUT": {
