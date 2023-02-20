@@ -266,9 +266,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   // If shift is tapped without any other keypress switch to the UMLAUTE layer
-  // TODO: Ignore double shift
-  if((KC_LSFT == keycode || KC_RSFT == keycode) && !IS_LAYER_ON(_UMLAUTE)) {
-    if(record->event.pressed && !shift_active) {
+  // but only if the current layer is colemakdhm or qwerty. This allows double
+  // shift press in other layers.
+  if((KC_LSFT == keycode || KC_RSFT == keycode) && !IS_LAYER_ON(_UMLAUTE)
+      && (IS_LAYER_ON(_COLEMAKDHM) || IS_LAYER_ON(_QWERTY))) {
+    if(record->event.pressed) {
       shift_active = keycode;
       key_timer = timer_read();
       return false;
