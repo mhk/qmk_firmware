@@ -268,11 +268,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // If shift is tapped without any other keypress switch to the UMLAUTE layer
   // TODO: Ignore double shift
   if((KC_LSFT == keycode || KC_RSFT == keycode) && !IS_LAYER_ON(_UMLAUTE)) {
-    if(record->event.pressed) {
+    if(record->event.pressed && !shift_active) {
       shift_active = keycode;
       key_timer = timer_read();
       return false;
-    } else if(shift_active && timer_elapsed(key_timer) < TAPPING_TERM) {
+    } else if(shift_active == keycode && timer_elapsed(key_timer) < TAPPING_TERM) {
       shift_active = 0;
       layer_on(_UMLAUTE);
       return false;
