@@ -56,10 +56,10 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 };
 
 #define _COLEMAKDHM (0)
-#define _PROGKEYS   (1)
-#define _MOVEMENT   (2)
-#define _UMLAUTE    (3)
-#define _QWERTY     (4)
+#define _QWERTY     (1)
+#define _PROGKEYS   (2)
+#define _MOVEMENT   (3)
+#define _UMLAUTE    (4)
 #define _ONETS      (5)
 #define KC_UMLT     KC_LSFT
 #define TD_DALT     TD(TD_LALT_RALT)
@@ -104,8 +104,15 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLEMAKDHM] = LAYOUT(
     KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       ON_PLOVER,
-    KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           TG(4),                                          TG(2),          KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
+    KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           KC_LALT,                                        KC_RALT,        KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
+                                                                    CK_LPROG,       KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       CK_RPROG
+    ),
+
+[_QWERTY] = LAYOUT(
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           ON_PLOVER,
+    KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
+    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_LALT,                                        KC_RALT,        KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
                                                                     CK_LPROG,       KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       CK_RPROG
     ),
 
@@ -128,13 +135,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT, CK_AE,          CK_SZ,          CK_SZ,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, CK_OE,          KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                     KC_TRANSPARENT, KC_TRANSPARENT, KC_RSHIFT,      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
-    ),
-
-[_QWERTY] = LAYOUT(
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           KC_LBRACKET,
-    KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
-    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_LALT,                                        KC_RALT, KC_N,  KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
-                                                                    KC_LALT,        KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       KC_RALT
     ),
 
 [_ONETS] = LAYOUT(
