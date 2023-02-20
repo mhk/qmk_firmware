@@ -83,6 +83,8 @@ enum custom_keycodes {
   CK_OE,
   ON_PLOVER,
   OFF_PLOVER,
+  CK_LPROG,
+  CK_RPROG,
 };
 
 
@@ -101,10 +103,10 @@ enum custom_keycodes {
  */
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [_COLEMAKDHM] = LAYOUT(
-    KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       KC_NO,
-    KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           TG(4),                                          TG(4),          KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
+    KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       ON_PLOVER,
+    KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           TG(4),                                          TG(2),          KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           KC_LALT,                                        KC_RALT,        KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
-                                                                    TT(1),          KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       TT(1)
+                                                                    CK_LPROG,       KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       CK_RPROG
     ),
 
 [_PROGKEYS] = LAYOUT(
@@ -116,7 +118,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_MOVEMENT] = LAYOUT(
     KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_WH_UP,    KC_MS_UP,       KC_MS_WH_DOWN,  KC_MS_ACCEL1,                                                                   KC_TRANSPARENT, KC_PGUP,        KC_UP,          KC_PGDOWN,      KC_HOME,        KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL2,   KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_END,         KC_TRANSPARENT,
+    TO(0),          KC_TRANSPARENT, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_MS_ACCEL2,   KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_END,         KC_TRANSPARENT,
     KC_TRANSPARENT, ST_MACRO_0,     KC_PC_CUT,      KC_PC_COPY,     ST_MACRO_1,     KC_PC_PASTE,    KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_MS_ACCEL2,   KC_MS_ACCEL1,   KC_MS_ACCEL0,   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
                                                                     KC_MS_BTN1,     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_BTN2
     ),
@@ -136,7 +138,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 
 [_ONETS] = LAYOUT(
-    KC_NO,          KC_EQUAL,       KC_MINUS,       KC_9,           KC_8,           KC_7,                                                                           KC_4,           KC_3,           KC_2,           KC_1,           KC_NO,          KC_NO,
+    KC_NO,          KC_EQUAL,       KC_MINUS,       KC_9,           KC_8,           KC_7,                                                                           KC_4,           KC_3,           KC_2,           KC_1,           KC_NO,          OFF_PLOVER,
     KC_NO,          KC_LBRACKET,    KC_P,           KC_O,           KC_I,           KC_U,           KC_Y,                                           KC_T,           KC_R,           KC_E,           KC_W,           KC_Q,           KC_NO,          KC_NO,
     KC_NO,          KC_QUOTE,       KC_SCOLON,      KC_L,           KC_K,           KC_J,           KC_H,                                           KC_G,           KC_F,           KC_D,           KC_S,           KC_A,           KC_NO,          KC_NO,
                                                                     KC_NO,          KC_NO,          KC_M,           KC_N,           KC_V,           KC_C,           KC_NO,          KC_NO
@@ -197,6 +199,7 @@ static void deactivate_plover(void) {
 
 static uint16_t key_timer = 0;
 static uint16_t shift_active = 0;
+static uint16_t lock_prog = 0;
 
 void matrix_scan_user(void) {
   if(shift_active && !IS_LAYER_ON(_UMLAUTE) && timer_elapsed(key_timer) > TAPPING_TERM) {
@@ -274,8 +277,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_ONETS);
       }
       return false;
+    case CK_LPROG:
+    case CK_RPROG:
+      if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && lock_prog) {
+        lock_prog = 0;
+      } else if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && !lock_prog) {
+        lock_prog = 1;
+      } else if (record->event.pressed && !IS_LAYER_ON(_PROGKEYS)) {
+        layer_on(_PROGKEYS);
+      } else if(!lock_prog) {
+          layer_off(_PROGKEYS);
+      }
+      break;
   }
   // If shift is tapped without any other keypress switch to the UMLAUTE layer
+  // TODO: Ignore double shift
   if((KC_LSFT == keycode || KC_RSFT == keycode) && !IS_LAYER_ON(_UMLAUTE)) {
     if(record->event.pressed) {
       shift_active = keycode;
