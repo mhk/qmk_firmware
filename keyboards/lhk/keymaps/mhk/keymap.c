@@ -211,35 +211,35 @@ void matrix_scan_user(void) {
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case ST_MACRO_0:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_TAP(X_Z)));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_TAP(X_Z)));
+      }
+      break;
     case ST_MACRO_1:
-    if (record->event.pressed) {
-      SEND_STRING(SS_LCTL(SS_TAP(X_Y)));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_LCTL(SS_TAP(X_Y)));
+      }
+      break;
     case CK_AE:
-    if (record->event.pressed) {
-      SEND_STRING("\"a");
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING("\"a");
+      }
+      break;
     case CK_SZ:
-    if (record->event.pressed) {
-      SEND_STRING(SS_RALT(SS_TAP(X_S)));
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING(SS_RALT(SS_TAP(X_S)));
+      }
+      break;
     case CK_UE:
-    if (record->event.pressed) {
-      SEND_STRING("\"u");
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING("\"u");
+      }
+      break;
     case CK_OE:
-    if (record->event.pressed) {
-      SEND_STRING("\"o");
-    }
-    break;
+      if (record->event.pressed) {
+        SEND_STRING("\"o");
+      }
+      break;
 #if 0
     case RGB_SLD:
       if (record->event.pressed) {
@@ -286,7 +286,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else if (record->event.pressed && !IS_LAYER_ON(_PROGKEYS)) {
         layer_on(_PROGKEYS);
       } else if(!lock_prog) {
-          layer_off(_PROGKEYS);
+        layer_off(_PROGKEYS);
       }
       break;
   }
