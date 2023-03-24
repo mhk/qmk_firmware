@@ -23,6 +23,19 @@
 #define NO_BSLS_ALT KC_EQUAL
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
 
+enum custom_keycodes {
+  ST_MACRO_0 = SAFE_RANGE,
+  ST_MACRO_1,
+  CK_AE,
+  CK_SZ,
+  CK_UE,
+  CK_OE,
+  ON_PLOVER,
+  OFF_PLOVER,
+  CK_LPROG,
+  CK_RPROG,
+};
+
 // Tap Dance declarations
 enum {
     TD_LSFT_RSFT,
@@ -73,19 +86,6 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_KHCIR    TD(TD_HASH_CIRC)
 #define TD_LCTCM    TD(TD_LCTL_LCMD)
 #define TD_RCTCM    TD(TD_RCTL_RCMD)
-
-enum custom_keycodes {
-  ST_MACRO_0  = SAFE_RANGE,
-  ST_MACRO_1,
-  CK_AE,
-  CK_SZ,
-  CK_UE,
-  CK_OE,
-  ON_PLOVER,
-  OFF_PLOVER,
-  CK_LPROG,
-  CK_RPROG,
-};
 
 
 /* Keymap template
@@ -167,7 +167,6 @@ void process_combo_event(uint16_t combo_index, bool pressed) {
 #endif
 
 extern keymap_config_t keymap_config;
-// static bool nkro = true;
 
 static void activate_plover(void) {
   // PHROPB -> ERFVIK
@@ -179,7 +178,6 @@ static void activate_plover(void) {
   register_code(KC_K);
   wait_ms(3);
   clear_keyboard();
-  // nkro = keymap_config.nkro;
   keymap_config.nkro = true;
 }
 
@@ -193,12 +191,12 @@ static void deactivate_plover(void) {
   register_code(KC_U);
   wait_ms(3);
   clear_keyboard();
-  // keymap_config.nkro = nkro;
   keymap_config.nkro = true;
 }
 
 static uint16_t key_timer = 0;
 static uint16_t shift_active = 0;
+static uint16_t on_plover = 0;
 static uint16_t lock_prog = 0;
 
 void matrix_scan_user(void) {
@@ -240,12 +238,31 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("\"o");
       }
       break;
-    case ON_PLOVER:
+#ifdef MOON_LED_LEVEL
+    case RGB_SLD:
       if (record->event.pressed) {
-        activate_plover();
-        layer_on(_ONETS);
+        rgblight_mode(1);
       }
       return false;
+    case HSV_0_255_255:
+      if (record->event.pressed) {
+        rgblight_mode(1);
+        rgblight_sethsv(0,255,255);
+      }
+      return false;
+    case HSV_86_255_128:
+      if (record->event.pressed) {
+        rgblight_mode(1);
+        rgblight_sethsv(86,255,128);
+      }
+      return false;
+    case HSV_172_255_255:
+      if (record->event.pressed) {
+        rgblight_mode(1);
+        rgblight_sethsv(172,255,255);
+      }
+      return false;
+#endif
     case OFF_PLOVER:
       if (record->event.pressed) {
         deactivate_plover();
@@ -264,6 +281,18 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_off(_PROGKEYS);
       }
       break;
+  }
+  // to prevent accidental activation of the plover layer force the user to double tap it
+  if(ON_PLOVER == keycode && record->event.pressed) {
+    ++on_plover;
+    if(!(on_plover & 0x01)) {
+      activate_plover();
+      layer_on(_ONETS);
+      on_plover = 0;
+      return false;
+    }
+  } else {
+    on_plover = 0;
   }
   // If shift is tapped without any other keypress switch to the UMLAUTE layer
   // but only if the current layer is colemakdhm or qwerty. This allows double
