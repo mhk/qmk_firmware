@@ -1,0 +1,25 @@
+{
+    "keyboard": "ez_maker/directpins/promicro",
+    "keymap": "steno01",
+    "layout": "LAYOUT_all",
+    "layers": [
+        [
+                            "KC_Y",
+                            "KC_U",
+            "KC_I"        , "KC_J",
+            "KC_K"        , "KC_N",
+            "KC_O"        , "KC_M",
+            "KC_L"        , "KC_0",
+            "KC_P"        , "KC_QUOTE",
+            "KC_SEMICOLON", "KC_LEFT_BRACKET",
+                            "KC_T",
+                            "KC_R",
+            "KC_E"        , "KC_F",
+            "KC_D"        , "KC_C",
+            "KC_W"        , "KC_V",
+            "KC_S"        , "KC_1",
+            "KC_Q"        , "KC_QUOTE",
+            "KC_SEMICOLON", "KC_LEFT_BRACKET"
+        ]
+    ]
+}
