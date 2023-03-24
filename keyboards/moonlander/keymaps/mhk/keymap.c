@@ -40,12 +40,8 @@
 #define BP_NDSH_MAC ALGR(KC_8)
 #define MOON_LED_LEVEL LED_LEVEL
 
-enum custom_keycodes {
-  RGB_SLD = ML_SAFE_RANGE,
-  HSV_0_255_255,
-  HSV_86_255_128,
-  HSV_172_255_255,
-  ST_MACRO_0,
+enum mhk_keycodes {
+  ST_MACRO_0 = SAFE_RANGE,
   ST_MACRO_1,
   CK_AE,
   CK_SZ,
@@ -108,7 +104,40 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_LCTCM    TD(TD_LCTL_LCMD)
 #define TD_RCTCM    TD(TD_RCTL_RCMD)
 
-#include "keymap.h"
+#include "kblayout.h"
+
+
+#ifndef KEY_MACRO_0
+#define KEY_MACRO_0     (ST_MACRO_0)
+#endif // KEY_MACRO_0
+#ifndef KEY_MACRO_1
+#define KEY_MACRO_1     (ST_MACRO_1)
+#endif // KEY_MACRO_1
+#ifndef KEY_AE
+#define KEY_AE          (CK_AE)
+#endif // KEY_AE
+#ifndef KEY_SZ
+#define KEY_SZ          (CK_SZ)
+#endif // KEY_SZ
+#ifndef KEY_UE
+#define KEY_UE          (CK_UE)
+#endif // KEY_UE
+#ifndef KEY_OE
+#define KEY_OE          (CK_OE)
+#endif // KEY_OE
+#ifndef KEY_ON_PLOVER
+#define KEY_ON_PLOVER   (ON_PLOVER)
+#endif // KEY_ON_PLOVER
+#ifndef KEY_OFF_PLOVER
+#define KEY_OFF_PLOVER  (OFF_PLOVER)
+#endif // KEY_OFF_PLOVER
+#ifndef KEY_LPROG
+#define KEY_LPROG       (CK_LPROG)
+#endif // KEY_LPROG
+#ifndef KEY_RPROG
+#define KEY_RPROG       (CK_RPROG)
+#endif // KEY_RPROG
+
 
 #ifdef COMBO_ENABLE
 enum combo_events {
@@ -172,70 +201,52 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CUSTOM_PROCESS_RECORD_USER
+  int result = -1;
+  if(-1 != (result = custom_process_record_user(keycode, record))) {
+    return result;
+  }
+#endif
+
   switch (keycode) {
-    case ST_MACRO_0:
+    case KEY_MACRO_0:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL(SS_TAP(X_Z)));
       }
       break;
-    case ST_MACRO_1:
+    case KEY_MACRO_1:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL(SS_TAP(X_Y)));
       }
       break;
-    case CK_AE:
+    case KEY_AE:
       if (record->event.pressed) {
         SEND_STRING("\"a");
       }
       break;
-    case CK_SZ:
+    case KEY_SZ:
       if (record->event.pressed) {
         SEND_STRING(SS_RALT(SS_TAP(X_S)));
       }
       break;
-    case CK_UE:
+    case KEY_UE:
       if (record->event.pressed) {
         SEND_STRING("\"u");
       }
       break;
-    case CK_OE:
+    case KEY_OE:
       if (record->event.pressed) {
         SEND_STRING("\"o");
       }
       break;
-#ifdef MOON_LED_LEVEL
-    case RGB_SLD:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-      }
-      return false;
-    case HSV_0_255_255:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(0,255,255);
-      }
-      return false;
-    case HSV_86_255_128:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(86,255,128);
-      }
-      return false;
-    case HSV_172_255_255:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(172,255,255);
-      }
-      return false;
-#endif
-    case OFF_PLOVER:
+    case KEY_OFF_PLOVER:
       if (record->event.pressed) {
         deactivate_plover();
         layer_off(_ONETS);
       }
       return false;
-    case CK_LPROG:
-    case CK_RPROG:
+    case KEY_LPROG:
+    case KEY_RPROG:
       if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && lock_prog) {
         lock_prog = 0;
       } else if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && !lock_prog) {
@@ -248,7 +259,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   // to prevent accidental activation of the plover layer force the user to double tap it
-  if(ON_PLOVER == keycode && record->event.pressed) {
+  if(KEY_ON_PLOVER == keycode && record->event.pressed) {
     ++on_plover;
     if(!(on_plover & 0x01)) {
       activate_plover();
