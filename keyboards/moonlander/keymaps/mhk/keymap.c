@@ -1,27 +1,12 @@
+/* Good on you for modifying your layout! if you don't have
+ * time to read the QMK docs, a list of keycodes can be found at
+ *
+ * https://github.com/qmk/qmk_firmware/blob/master/docs/keycodes.md
+ *
+ * There's also a template for adding new layers at the bottom of this file!
+ */
+
 #include QMK_KEYBOARD_H
-#include "version.h"
-#include "keymap_german.h"
-#include "keymap_nordic.h"
-#include "keymap_french.h"
-#include "keymap_spanish.h"
-#include "keymap_hungarian.h"
-#include "keymap_swedish.h"
-#include "keymap_br_abnt2.h"
-#include "keymap_canadian_multilingual.h"
-#include "keymap_german_ch.h"
-#include "keymap_jp.h"
-#include "keymap_bepo.h"
-#include "keymap_italian.h"
-#include "keymap_slovenian.h"
-#include "keymap_danish.h"
-#include "keymap_norwegian.h"
-#include "keymap_portuguese.h"
-#include "keymap_contributions.h"
-#include "keymap_czech.h"
-#include "keymap_romanian.h"
-#include "keymap_russian.h"
-#include "keymap_uk.h"
-#include "keymap_estonian.h"
 
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
@@ -37,8 +22,6 @@
 #define NO_PIPE_ALT KC_GRAVE
 #define NO_BSLS_ALT KC_EQUAL
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
-#define BP_NDSH_MAC ALGR(KC_8)
-#define MOON_LED_LEVEL LED_LEVEL
 
 enum mhk_keycodes {
   ST_MACRO_0 = SAFE_RANGE,
@@ -47,7 +30,8 @@ enum mhk_keycodes {
   CK_SZ,
   CK_UE,
   CK_OE,
-  ON_PLOVER,
+  ON_PLOVER0,
+  ON_PLOVER1,
   OFF_PLOVER,
   CK_LPROG,
   CK_RPROG,
@@ -125,9 +109,12 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #ifndef KEY_OE
 #define KEY_OE          (CK_OE)
 #endif // KEY_OE
-#ifndef KEY_ON_PLOVER
-#define KEY_ON_PLOVER   (ON_PLOVER)
-#endif // KEY_ON_PLOVER
+#ifndef KEY_ON_PLOVER0
+#define KEY_ON_PLOVER0  (ON_PLOVER0)
+#endif // KEY_ON_PLOVER0
+#ifndef KEY_ON_PLOVER1
+#define KEY_ON_PLOVER1  (ON_PLOVER1)
+#endif // KEY_ON_PLOVER1
 #ifndef KEY_OFF_PLOVER
 #define KEY_OFF_PLOVER  (OFF_PLOVER)
 #endif // KEY_OFF_PLOVER
@@ -239,6 +226,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING("\"o");
       }
       break;
+    case KEY_ON_PLOVER0:
+      on_plover = 0;
+      if (record->event.pressed) {
+        activate_plover();
+        layer_on(_ONETS);
+      }
+      return false;
     case KEY_OFF_PLOVER:
       if (record->event.pressed) {
         deactivate_plover();
@@ -259,7 +253,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   // to prevent accidental activation of the plover layer force the user to double tap it
-  if(KEY_ON_PLOVER == keycode && record->event.pressed) {
+  if(KEY_ON_PLOVER1 == keycode && record->event.pressed) {
     ++on_plover;
     if(!(on_plover & 0x01)) {
       activate_plover();
@@ -267,7 +261,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       on_plover = 0;
       return false;
     }
-  } else {
+  } else if(KEY_ON_PLOVER1 != keycode)  {
     on_plover = 0;
   }
   // If shift is tapped without any other keypress switch to the UMLAUTE layer

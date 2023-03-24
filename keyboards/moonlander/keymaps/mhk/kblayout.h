@@ -1,4 +1,30 @@
 #pragma once
+#include "version.h"
+#include "keymap_german.h"
+#include "keymap_nordic.h"
+#include "keymap_french.h"
+#include "keymap_spanish.h"
+#include "keymap_hungarian.h"
+#include "keymap_swedish.h"
+#include "keymap_br_abnt2.h"
+#include "keymap_canadian_multilingual.h"
+#include "keymap_german_ch.h"
+#include "keymap_jp.h"
+#include "keymap_bepo.h"
+#include "keymap_italian.h"
+#include "keymap_slovenian.h"
+#include "keymap_danish.h"
+#include "keymap_norwegian.h"
+#include "keymap_portuguese.h"
+#include "keymap_contributions.h"
+#include "keymap_czech.h"
+#include "keymap_romanian.h"
+#include "keymap_russian.h"
+#include "keymap_uk.h"
+#include "keymap_estonian.h"
+
+#define BP_NDSH_MAC ALGR(KC_8)
+#define MOON_LED_LEVEL LED_LEVEL
 
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
@@ -11,7 +37,8 @@ enum custom_keycodes {
   ML_CK_SZ,
   ML_CK_UE,
   ML_CK_OE,
-  ML_ON_PLOVER,
+  ML_ON_PLOVER0,
+  ML_ON_PLOVER1,
   ML_OFF_PLOVER,
   ML_CK_LPROG,
   ML_CK_RPROG,
@@ -23,7 +50,8 @@ enum custom_keycodes {
 #define KEY_SZ          (ML_CK_SZ)
 #define KEY_UE          (ML_CK_UE)
 #define KEY_OE          (ML_CK_OE)
-#define KEY_ON_PLOVER   (ML_ON_PLOVER)
+#define KEY_ON_PLOVER0  (ML_ON_PLOVER0)
+#define KEY_ON_PLOVER1  (ML_ON_PLOVER1)
 #define KEY_OFF_PLOVER  (ML_OFF_PLOVER)
 #define KEY_LPROG       (ML_CK_LPROG)
 #define KEY_RPROG       (ML_CK_RPROG)
@@ -31,18 +59,18 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_COLEMAKDHM] = LAYOUT_moonlander(
     NK_TOGG,        KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           AU_TOG,                                         RGB_TOG,        KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
-    KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       ML_ON_PLOVER,
+    KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       ML_ON_PLOVER1,
     KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           KC_LALT,                                        KC_RALT,        KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,                                                                           KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
-    KC_LGUI,        KC_APPLICATION, KC_LEFT,        KC_RIGHT,       ML_CK_LPROG,    TG(_QWERTY),                                                                    ML_ON_PLOVER,   ML_CK_RPROG,    KC_DOWN,        KC_UP,          KC_APPLICATION, KC_RGUI,
+    KC_LGUI,        KC_APPLICATION, KC_LEFT,        KC_RIGHT,       ML_CK_LPROG,    TG(_QWERTY),                                                                    ML_ON_PLOVER0,  ML_CK_RPROG,    KC_DOWN,        KC_UP,          KC_APPLICATION, KC_RGUI,
     KC_ENTER,       KC_LSHIFT,      TD_LCTCM,                       TD_RCTCM,       KC_RSHIFT,      KC_SPACE
   ),
   [_QWERTY] = LAYOUT_moonlander(
     KC_EQUAL,       KC_1,           KC_2,           KC_3,           KC_4,           KC_5,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_6,           KC_7,           KC_8,           KC_9,           KC_0,           KC_MINUS,
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           ML_ON_PLOVER,
+    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,           KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           ML_ON_PLOVER1,
     KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           KC_LALT,                                        KC_RALT,        KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
     KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,                                                                           KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
-    KC_LGUI,        KC_APPLICATION, KC_LEFT,        KC_RIGHT,       ML_CK_LPROG,    TG(_QWERTY),                                                                    ML_ON_PLOVER,   ML_CK_RPROG,    KC_DOWN,        KC_UP,          KC_APPLICATION, KC_RGUI,
+    KC_LGUI,        KC_APPLICATION, KC_LEFT,        KC_RIGHT,       ML_CK_LPROG,    TG(_QWERTY),                                                                    ML_ON_PLOVER0,  ML_CK_RPROG,    KC_DOWN,        KC_UP,          KC_APPLICATION, KC_RGUI,
     KC_ENTER,       KC_LSHIFT,      TD_LCTCM,                       TD_RCTCM,       KC_RSHIFT,      KC_SPACE
   ),
   [_PROGKEYS] = LAYOUT_moonlander(
