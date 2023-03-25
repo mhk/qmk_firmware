@@ -5,7 +5,6 @@
  *
  * There's also a template for adding new layers at the bottom of this file!
  */
-
 #include QMK_KEYBOARD_H
 
 #define KC_MAC_UNDO LGUI(KC_Z)
@@ -23,14 +22,15 @@
 #define NO_BSLS_ALT KC_EQUAL
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
 
-enum custom_keycodes {
+enum mhk_keycodes {
   ST_MACRO_0 = SAFE_RANGE,
   ST_MACRO_1,
   CK_AE,
   CK_SZ,
   CK_UE,
   CK_OE,
-  ON_PLOVER,
+  ON_PLOVER1,
+  ON_PLOVER2,
   OFF_PLOVER,
   CK_LPROG,
   CK_RPROG,
@@ -87,63 +87,42 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 #define TD_LCTCM    TD(TD_LCTL_LCMD)
 #define TD_RCTCM    TD(TD_RCTL_RCMD)
 
+#include "keyboard-layout.h"
 
-/* Keymap template
- *
- * ,-------------------------------------------.                         ,-------------------------------------------.
- * |        |      |      |      |      |      + ------.          .------|      |      |      |      |      |        |
- * |--------+------+------+------+------+------|       |          |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      + ------|          |------|      |      |      |      |      |        |
- * |--------+------+------+------+------+------|       |          |      |------+------+------+------+------+--------|
- * |        |      |      |      |      |      + ------'          `------|      |      |      |      |      |        |
- * `--------+------+------+------+------+------'                         `------+------+------+------+------+--------'
- *                        ,---------------------------.           ,---------------------------.
- *                        |      |      |      |      |           |      |      |      |      |
- *                        `---------------------------'           `---------------------------'
- */
-const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-[_COLEMAKDHM] = LAYOUT(
-    KC_TAB,         KC_Q,           KC_W,           KC_F,           KC_P,           KC_B,                                                                           KC_J,           KC_L,           KC_U,           KC_Y,           KC_QUOTE,       ON_PLOVER,
-    KC_ESCAPE,      KC_A,           KC_R,           KC_S,           KC_T,           KC_G,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_M,           KC_N,           KC_E,           KC_I,           KC_O,           KC_SLASH,
-    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_D,           KC_V,           KC_LALT,                                        KC_RALT,        KC_K,           KC_H,           KC_COMMA,       KC_DOT,         KC_SCOLON,      KC_DELETE,
-                                                                    CK_LPROG,       KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       CK_RPROG
-    ),
+#ifndef KEY_MACRO_0
+#define KEY_MACRO_0         (ST_MACRO_0)
+#endif // KEY_MACRO_0
+#ifndef KEY_MACRO_1
+#define KEY_MACRO_1         (ST_MACRO_1)
+#endif // KEY_MACRO_1
+#ifndef KEY_AE
+#define KEY_AE              (CK_AE)
+#endif // KEY_AE
+#ifndef KEY_SZ
+#define KEY_SZ              (CK_SZ)
+#endif // KEY_SZ
+#ifndef KEY_UE
+#define KEY_UE              (CK_UE)
+#endif // KEY_UE
+#ifndef KEY_OE
+#define KEY_OE              (CK_OE)
+#endif // KEY_OE
+#ifndef KEY_ON_PLOVER1
+#define KEY_ON_PLOVER1      (ON_PLOVER1)
+#endif // KEY_ON_PLOVER1
+#ifndef KEY_ON_PLOVER2
+#define KEY_ON_PLOVER2      (ON_PLOVER2)
+#endif // KEY_ON_PLOVER2
+#ifndef KEY_OFF_PLOVER
+#define KEY_OFF_PLOVER      (OFF_PLOVER)
+#endif // KEY_OFF_PLOVER
+#ifndef KEY_LPROG
+#define KEY_LPROG           (CK_LPROG)
+#endif // KEY_LPROG
+#ifndef KEY_RPROG
+#define KEY_RPROG           (CK_RPROG)
+#endif // KEY_RPROG
 
-[_QWERTY] = LAYOUT(
-    KC_TAB,         KC_Q,           KC_W,           KC_E,           KC_R,           KC_T,                                                                           KC_Y,           KC_U,           KC_I,           KC_O,           KC_P,           ON_PLOVER,
-    KC_ESCAPE,      KC_A,           KC_S,           KC_D,           KC_F,           KC_G,           TG(_QWERTY),                                    TG(_MOVEMENT),  KC_H,           KC_J,           KC_K,           KC_L,           KC_SCOLON,      KC_QUOTE,
-    KC_BSPACE,      KC_Z,           KC_X,           KC_C,           KC_V,           KC_B,           KC_LALT,                                        KC_RALT,        KC_N,           KC_M,           KC_COMMA,       KC_DOT,         KC_SLASH,       KC_DELETE,
-                                                                    CK_LPROG,       KC_ENTER,       KC_LSHIFT,      TD_LCTCM,       TD_RCTCM,       KC_RSHIFT,      KC_SPACE,       CK_RPROG
-    ),
-
-[_PROGKEYS] = LAYOUT(
-    KC_TRANSPARENT, KC_GRAVE,       KC_TILD,        KC_AMPR,        TD_CBRC,        KC_BSLASH,                                                                      KC_ASTR,        KC_5,           KC_6,           KC_7,           KC_8,           KC_TRANSPARENT,
-    TO(0),          KC_DQUO,        KC_UNDS,        KC_EQUAL,       TD_RBRC,        KC_AT,          KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_PLUS,        KC_1,           KC_2,           KC_3,           KC_4,           KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_EXLM,        KC_PIPE,        TD_CRNCY,       TD_SBRC,        TD_KHCIR,       KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_PERC,        KC_9,           KC_COMMA,       KC_DOT,         KC_MINUS,       KC_TRANSPARENT,
-                                                                    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_0,           KC_TRANSPARENT, KC_TRANSPARENT
-    ),
-
-[_MOVEMENT] = LAYOUT(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_WH_UP,    KC_MS_UP,       KC_MS_WH_DOWN,  KC_TRANSPARENT,                                                                 KC_TRANSPARENT, KC_PGUP,        KC_UP,          KC_PGDOWN,      KC_HOME,        KC_TRANSPARENT,
-    TO(0),          KC_TRANSPARENT, KC_MS_LEFT,     KC_MS_DOWN,     KC_MS_RIGHT,    KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_LEFT,        KC_DOWN,        KC_RIGHT,       KC_END,         KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_PC_UNDO,     KC_PC_CUT,      KC_PC_COPY,     KC_TRANSPARENT, KC_PC_PASTE,    KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_MS_ACCEL2,   KC_MS_ACCEL1,   KC_MS_ACCEL0,   KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                    KC_MS_BTN1,     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_MS_BTN2
-    ),
-
-[_UMLAUTE] = LAYOUT(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                                                 KC_TRANSPARENT, CK_UE,          CK_UE,          CK_OE,          KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, CK_AE,          CK_SZ,          CK_SZ,          KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, CK_OE,          KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_MAC_UNDO,    KC_MAC_CUT,     KC_MAC_COPY,    KC_TRANSPARENT, KC_MAC_PASTE,   KC_TRANSPARENT,                                 KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-                                                                    KC_TRANSPARENT, KC_TRANSPARENT, KC_RSHIFT,      KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
-    ),
-
-[_ONETS] = LAYOUT(
-    KC_NO,          KC_EQUAL,       KC_MINUS,       KC_9,           KC_8,           KC_7,                                                                           KC_4,           KC_3,           KC_2,           KC_1,           KC_NO,          OFF_PLOVER,
-    KC_NO,          KC_LBRACKET,    KC_P,           KC_O,           KC_I,           KC_U,           KC_Y,                                           KC_T,           KC_R,           KC_E,           KC_W,           KC_Q,           KC_NO,          KC_NO,
-    KC_NO,          KC_QUOTE,       KC_SCOLON,      KC_L,           KC_K,           KC_J,           KC_H,                                           KC_G,           KC_F,           KC_D,           KC_S,           KC_A,           KC_NO,          KC_NO,
-                                                                    KC_NO,          KC_NO,          KC_M,           KC_N,           KC_V,           KC_C,           KC_NO,          KC_NO
-    )
-};
 
 #ifdef COMBO_ENABLE
 enum combo_events {
@@ -207,70 +186,58 @@ void matrix_scan_user(void) {
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+#ifdef CUSTOM_PROCESS_RECORD_USER
+  int result = -1;
+  if(-1 != (result = custom_process_record_user(keycode, record))) {
+    return result;
+  }
+#endif
   switch (keycode) {
-    case ST_MACRO_0:
+    case KEY_MACRO_0:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL(SS_TAP(X_Z)));
       }
       break;
-    case ST_MACRO_1:
+    case KEY_MACRO_1:
       if (record->event.pressed) {
         SEND_STRING(SS_LCTL(SS_TAP(X_Y)));
       }
       break;
-    case CK_AE:
+    case KEY_AE:
       if (record->event.pressed) {
         SEND_STRING("\"a");
       }
       break;
-    case CK_SZ:
+    case KEY_SZ:
       if (record->event.pressed) {
         SEND_STRING(SS_RALT(SS_TAP(X_S)));
       }
       break;
-    case CK_UE:
+    case KEY_UE:
       if (record->event.pressed) {
         SEND_STRING("\"u");
       }
       break;
-    case CK_OE:
+    case KEY_OE:
       if (record->event.pressed) {
         SEND_STRING("\"o");
       }
       break;
-#ifdef MOON_LED_LEVEL
-    case RGB_SLD:
+    case KEY_ON_PLOVER1:
       if (record->event.pressed) {
-        rgblight_mode(1);
+        activate_plover();
+        layer_on(_ONETS);
+        on_plover = 0;
       }
       return false;
-    case HSV_0_255_255:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(0,255,255);
-      }
-      return false;
-    case HSV_86_255_128:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(86,255,128);
-      }
-      return false;
-    case HSV_172_255_255:
-      if (record->event.pressed) {
-        rgblight_mode(1);
-        rgblight_sethsv(172,255,255);
-      }
-      return false;
-#endif
-    case OFF_PLOVER:
+    case KEY_OFF_PLOVER:
       if (record->event.pressed) {
         deactivate_plover();
         layer_off(_ONETS);
       }
       return false;
-    case CK_LPROG:
-    case CK_RPROG:
+    case KEY_LPROG:
+    case KEY_RPROG:
       if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && lock_prog) {
         lock_prog = 0;
       } else if (record->event.pressed && IS_LAYER_ON(_PROGKEYS) && !lock_prog) {
@@ -283,7 +250,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   // to prevent accidental activation of the plover layer force the user to double tap it
-  if(ON_PLOVER == keycode && record->event.pressed) {
+  if(KEY_ON_PLOVER2 == keycode && record->event.pressed) {
     ++on_plover;
     if(!(on_plover & 0x01)) {
       activate_plover();
@@ -291,7 +258,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       on_plover = 0;
       return false;
     }
-  } else {
+  } else if (KEY_ON_PLOVER2 != keycode) {
     on_plover = 0;
   }
   // If shift is tapped without any other keypress switch to the UMLAUTE layer
