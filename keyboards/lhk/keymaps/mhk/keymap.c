@@ -153,6 +153,7 @@ static void activate_plover(void) {
   register_code(KC_R);
   register_code(KC_F);
   register_code(KC_V);
+  register_code(KC_Y);
   register_code(KC_I);
   register_code(KC_K);
   wait_ms(3);
